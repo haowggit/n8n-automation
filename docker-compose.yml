@@ -1,0 +1,80 @@
+version: '3.7'
+
+services:
+
+
+  n8n:
+    image: n8nio/n8n:1.98.2
+    restart: always
+    user: "${UID}:${GID}"
+    ports:
+      - "127.0.0.1:5678:5678"
+    environment:
+      - DB_TYPE=postgresdb
+      - DB_POSTGRESDB_HOST=postgres
+      - DB_POSTGRESDB_PORT=5432
+      - DB_POSTGRESDB_DATABASE=${POSTGRES_DB}
+      - DB_POSTGRESDB_USER=${POSTGRES_USER}
+      - DB_POSTGRESDB_PASSWORD=${POSTGRES_PASSWORD}
+      - N8N_BINARY_DATA_DIR=/data/
+      - WEBHOOK_URL=https://${NGROK_DOMAIN}
+    volumes:
+      - n8n_data:/home/node/.n8n
+      - ./latex-files:/data
+    depends_on:
+      - postgres
+      - ngrok
+
+
+  postgres:
+    image: postgres:14
+    restart: always
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+#  latex:
+#    image: aergus/latex
+#    restart: always
+#    user: "${UID}:${GID}"
+#    command: tail -f /dev/null
+#    volumes:
+#      - ./latex-files:/data
+#    working_dir: /data/shared
+# in docker-compose.yml
+  latex:
+    build: ./latex-service
+    user: "${UID}:${GID}"
+    restart: always
+    volumes:
+      - ./latex-files:/data
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      # Wir mappen den Port nur für lokalen Zugriff, falls ngrok mal nicht läuft.
+      - "127.0.0.1:8080:8080"
+    depends_on:
+      - postgres
+
+  ngrok:
+    image: ngrok/ngrok:latest
+    restart: always
+    ports:
+      - "4040:4040"
+    environment:
+      - NGROK_AUTHTOKEN=${NGROK_AUTHTOKEN}
+    command: http --domain=${NGROK_DOMAIN} n8n:5678
+#    volumes:
+#      # Wir mounten unsere neue Konfigurationsdatei in den Container
+#      - ./ngrok.yml:/etc/ngrok.yml
+#    command: start --all --config /etc/ngrok.yml
+
+volumes:
+  n8n_data:
+  postgres_data:
+#  latex_data:
