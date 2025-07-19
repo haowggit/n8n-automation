@@ -18,8 +18,15 @@ services:
       - DB_POSTGRESDB_PASSWORD=${POSTGRES_PASSWORD}
       - N8N_BINARY_DATA_DIR=/data/
       - WEBHOOK_URL=https://${NGROK_DOMAIN}
+      - APIFY_KEY=${APIFY_KEY}
+      - Email_Adress=${Email_Adress}
+      - Personalization_Notes=${Personalization_Notes}
+      - Job_Matching_Preference=${Job_Matching_Preference}
+      - /etc/localtime:/etc/localtime:ro
+
     volumes:
-      - n8n_data:/home/node/.n8n
+      - ./n8n-data:/home/node/.n8n
+
       - ./latex-files:/data
     depends_on:
       - postgres
@@ -75,6 +82,8 @@ services:
 #    command: start --all --config /etc/ngrok.yml
 
 volumes:
-  n8n_data:
+#  n8n_data:
   postgres_data:
 #  latex_data:
+
+

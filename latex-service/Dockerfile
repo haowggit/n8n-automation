@@ -1,23 +1,36 @@
-# Wir starten von einem Python-Image, um Flask zu haben
+# We start from a standard Python image to run our Flask server
 FROM python:3.9-slim
 
-# Installieren von XeTeX (eine relativ schlanke LaTeX-Version)
+# Install necessary system libraries for font management
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends texlive-xetex && \
+    apt-get install -y --no-install-recommends fontconfig && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-# Installieren von Flask
+# Install a more robust, but still curated, set of TeX packages
+# This includes advanced font utilities via texlive-luatex
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+    texlive-xetex \
+    texlive-luatex \
+    texlive-latex-extra \
+    texlive-fonts-recommended \
+    texlive-font-utils \
+    && apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+# Rebuild the system's font cache to recognize all available fonts
+RUN fc-cache -f -v
+
+# Install Flask for our web service
 RUN pip install Flask
 
-# Setzen des Arbeitsverzeichnisses
+# Set up the application directory
 WORKDIR /app
-
-# Kopieren unseres Server-Skripts in den Container
 COPY server.py .
 
-# Dieser Port wird vom Webserver im Container verwendet
+# Expose the port the server will run on
 EXPOSE 5000
 
-# Der Befehl, der beim Start des Containers ausgeführt wird
-CMD ["python", "/app/server.py"]
+# The command to start the server
+CMD ["python", "server.py"]
