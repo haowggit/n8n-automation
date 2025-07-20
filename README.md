@@ -150,7 +150,7 @@ Inside your running n8n instance, you must create the following credentials, ref
 
 If you find this project useful for your own job search and would like to say thanks, you can buy me a coffee! Any support is greatly appreciated.
 
-<a href="YOUR_BUY_ME_A_COFFEE_LINK_HERE" target="https://buymeacoffee.com/haow">
+<a href="https://buymeacoffee.com/haow" target="_blank">
   <img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;" >
 </a>
 
