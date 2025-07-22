@@ -5,9 +5,23 @@ This project is a comprehensive, self-hosted system for automating the job searc
 *This is a personal learning project designed to explore advanced automation patterns, multi-agent systems, and self-hosted infrastructure. The primary goal was to build a functional end-to-end prototype and document the architectural decisions made along the way.*
 
 ---
+
+## Table of Contents
+1.  [Core Features & Workflow Architecture](#core-features--workflow-architecture)
+2.  [Full Installation & Setup Guide](#full-installation--setup-guide)
+3.  [Key Contributions & Improvements](#key-contributions--improvements)
+4.  [Project Philosophy & Design Decisions](#project-philosophy--design-decisions)
+5.  [Future Development & Unsolved Challenges](#future-development--unsolved-challenges)
+6.  [Support the Project](#support-the-project)
+7.  [Feedback & Contributing](#feedback--contributing)
+8.  [Sources and Acknowledgements](#sources-and-acknowledgements)
+
+---
+
+
 ## Core Features & Workflow Architecture
 
-The system is composed of two primary workflows that create a powerful job application pipeline.
+The system is composed of two primary, independent workflows that work together to create a powerful job application pipeline.
 
 **Screenshot of the N8N Canvas:**
 *![Canvas Screenshot](screenshots/workflow_screenshot.png)*
@@ -34,6 +48,54 @@ This workflow is triggered by a unique webhook link included in the recommendati
 
 **Screenshot of a Generated Cover Letter:**
 *![Generated Cover Letter Screenshot](screenshots/coverletter_screenshot.png)*
+
+
+### Full Installation & Setup Guide
+
+To get this project running, you will need Docker and Docker Compose installed. The setup process involves configuring cloud services, setting up the local environment, and configuring the n8n workflows.
+
+#### Step 1: Clone the Repository
+First, clone this project to your local machine.
+```bash
+git clone https://github.com/haowggit/n8n-automation.git
+cd n8n_automation
+```
+
+#### Step 2: Configure Environment Variables (`.env` file)
+Create a `.env` file in the root of the project. This file will hold all your secrets and configurations.
+
+-   `APIFY_API_KEY`: Your API key from the [Apify platform](https://apify.com/).
+-   `GEMINI_API_KEY`: Your API key for the Google Gemini LLM from [Google AI Studio](https://aistudio.google.com/app/apikey).
+-   `POSTGRES_USER`, `POSTGRES_PASSWORD`, `POSTGRES_DB`: Your desired credentials for the PostgreSQL database.
+-   `NGROK_AUTHTOKEN`, ''NGROK_DOMAIN: Your authtoken and static ngrok domain from your [ngrok dashboard](https://dashboard.ngrok.com/get-started/your-authtoken).
+-   `UID` and `GID`: Your User ID and Group ID (find with `id -u` and `id -g` on Linux/macOS).
+-   `JOB_MATCHING_PREFERENCE`: Your core job search preferences (e.g., "Junior Data Scientist in Munich").
+-   `EMAIL_ADDRESS`: The email address for receiving job recommendations.
+-   `PERSONALIZATION_NOTES`: Specific notes for the AI agents (e.g., "Emphasize my Python projects").
+
+#### Step 3: Run with Docker Compose
+This single command will build the custom LaTeX service image and start all containers (n8n, PostgreSQL, Adminer, etc.) in the background.
+```bash
+docker compose up -d --build
+```
+After a few moments, your n8n instance will be running at `your_static_domain.ngrok-free.app`.
+
+#### Step 4: Set up Google Cloud Platform & OAuth
+The workflow uses Gmail and Google Drive. You must set up a project in the [Google Cloud Platform](https://console.cloud.google.com/) and:
+1.  Enable the **Gmail API** and **Google Drive API**.
+2.  Create **OAuth 2.0 credentials** (for a "Web Application" or "Desktop App").
+3.  Follow the [guide](https://medium.com/swlh/google-drive-api-with-python-part-i-set-up-credentials-1f729cb0372b) for setting up credentials for Gmail and Drive API
+
+#### Step 5: Configure n8n
+1.  **Create Admin User:** On your first visit to `http://localhost:5678` or `your_static_domain.ngrok-free.app`, n8n will prompt you to create an owner account.
+2.  **Import Workflows:** In the n8n UI, go to **Workflows**, click **Import**, and select **Import from File...**. Choose the `.json` workflow files from this repository.
+3.  **Set up Credentials:** Navigate to the **Credentials** tab on the left. You must create the following credentials by clicking "Add credential" and searching for the service:
+    -   A **Postgres** credential for the local database.
+    -   A **Google Gemini**, **DeepSeek** or your favorite LLM Model credential.
+    -   A **Gmail** and **Google Drive** credential (from previous step).
+4.  **Link Credentials in Workflows:** Open each imported workflow. You will see nodes with red error dots. Click on each of these nodes and, from the "Credential" dropdown, select the credential you just created.
+5.  **Activate Workflows:** Once all credentials are linked, go back to the Workflows list and toggle the switch to **Active** for both the "Automated Job Scraper" and "Generate Cover Letter" workflows.
+
 
 ---
 ## Key Contributions & Improvements
@@ -114,36 +176,6 @@ For a developer with coding skills and DevOps experience, n8n is a fantastic too
 However, for building a stateful, scalable, and complex application like this one, the limitations in the code environment and the licensing model present significant friction. Therefore, for the next iteration of this project, I have decided to **switch to a more flexible, code-first stack using Python, FastAPI, and a dedicated multi-agent framework like LangChain/LangGraph**, which is better suited to the project's long-term architectural goals.
 
 ---
-## Prerequisites and Setup
-
-To run this workflow, you will need to configure several services and obtain the necessary API keys. All secrets should be managed in the `.env` file.
-
-**1. Environment File (`.env`):**
-Create a `.env` file in the root of the project. It must contain all the following variables:
-
--   `APIFY_API_KEY`: Your API key from the [Apify platform](https://apify.com/).
--   `GEMINI_API_KEY`: Your API key for the Google Gemini LLM.
-    -   [Google AI Studio (for Gemini)](https://aistudio.google.com/app/apikey)
--   `POSTGRES_USER`, `POSTGRES_PASSWORD`, `POSTGRES_DB`: Your desired credentials for the PostgreSQL database.
--   `NGROK_AUTHTOKEN`: Your authtoken from your [ngrok dashboard](https://dashboard.ngrok.com/get-started/your-authtoken).
--   `UID` and `GID`: The User ID and Group ID of your host user (find with `id -u` and `id -g` on Linux/macOS).
--   `JOB_MATCHING_PREFERENCE`: A string describing your core job search preferences.
--   `EMAIL_ADDRESS`: The email address where you want to receive job recommendations.
--   `PERSONALIZATION_NOTES`: Specific notes for the AI agents to consider when tailoring documents.
-
-**2. Google Cloud Platform & OAuth:**
-The workflow uses Gmail and Google Drive. You must set up a project in the [Google Cloud Platform](https://console.cloud.google.com/) and:
--   Enable the **Gmail API** and **Google Drive API**.
--   Create **OAuth 2.0 credentials**.
--   Download the credentials JSON file.
-
-**3. n8n Credentials Setup:**
-Inside your running n8n instance, you must create the following credentials, referencing the information from the steps above:
--   A **Postgres** credential for the local database.
--   An **Apify** credential.
--   A **Google Gemini** credential for the AI agents.
--   A **Gmail** credential, using your Google Cloud OAuth information.
--   A **Google Drive** credential, using the same OAuth information.
 
 ---
 ## Support the Project
@@ -153,6 +185,17 @@ If you find this project useful for your own job search and would like to say th
 <a href="https://buymeacoffee.com/haow" target="_blank">
   <img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;" >
 </a>
+
+---
+## Feedback & Contributing
+
+This is a personal learning project, and I welcome any and all feedback to improve it! If you have any suggestions, find a bug, or want to contribute, please feel free to:
+
+-   **Open an Issue:** This is the best way to report bugs or request features.
+-   **Start a Discussion:** For more general ideas or questions about the architecture.
+-   **Submit a Pull Request:** If you'd like to contribute directly to the code.
+
+Your feedback is invaluable in helping this project grow and improve.
 
 ---
 
