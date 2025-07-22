@@ -2356,40 +2356,6 @@
     },
     {
       "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "87465f66-97a5-40b0-a75e-a68da164f6e8",
-              "name": "data",
-              "value": "={\n    \"matchedJobs\": [\n      {\n        \"database_id\": \"c4728de3c549eaf9\",\n        \"Company Name\": \"Finanztip Verbraucherinformation GmbH\",\n        \"Job Title\": \"Werkstudent*in Data Science (all genders)\",\n        \"Industry\": \"Not specified\",\n        \"Reason for Match\": \"Excellent match for a junior data science role in Munich. Directly aligns with your Data Science coursework, practical experience with Python and SQL, and native German proficiency.\",\n        \"Application URL\": \"https://t.gohiring.com/h/5b4e152b5f059415137087e72d9c3ab64b3b51551022f5530ca9a3e0d8f1c968?source=Indeed\",\n        \"Location\": \"81671 München\",\n        \"Flexibility\": \"Not specified\",\n        \"Salary Range\": \"Not specified\"\n      },\n      {\n        \"database_id\": \"55486f3995d52645\",\n        \"Company Name\": \"EFESO Management Consultants\",\n        \"Job Title\": \"Praktikant (all genders) im Bereich Künstliche Intelligenz\",\n        \"Industry\": \"Not specified\",\n        \"Reason for Match\": \"Perfectly matches your project experience in applied AI and LLMs. This internship in Munich offers hands-on experience with Python, GPT, and modern AI frameworks that you are skilled in.\",\n        \"Application URL\": \"https://t.gohiring.com/h/eaddbd0b196b5f7bbeda6928b197dbb97a2c8b94ba8a1c94fc71b4b20c8726bb?source=Indeed\",\n        \"Location\": \"80797 München\",\n        \"Flexibility\": \"Vollzeit\",\n        \"Salary Range\": \"Not specified\"\n      },\n      {\n        \"database_id\": \"c83b7b064f423054\",\n        \"Company Name\": \"Celonis\",\n        \"Job Title\": \"Associate Technology Consultant - Galaxy Program\",\n        \"Industry\": \"Not specified\",\n        \"Reason for Match\": \"This graduate program is an ideal entry point, matching your preference for a junior role in Munich. It leverages your strong background in Data Mining, Python, and SQL, and requires native German skills.\",\n        \"Application URL\": \"https://grnh.se/0304d1783us\",\n        \"Location\": \"München\",\n        \"Flexibility\": \"Vollzeit\",\n        \"Salary Range\": \"Not specified\"\n      },\n      {\n        \"database_id\": \"196d17a92a6b29b0\",\n        \"Company Name\": \"Max-Planck-Gesellschaft\",\n        \"Job Title\": \"Aushilfe mit KI/Chat GPT-Expertise in Teilzeit (6 Std./Woche) (all genders)\",\n        \"Industry\": \"Not specified\",\n        \"Reason for Match\": \"Strongly aligns with your personal projects using LLMs and prompt engineering. This role in Garching offers a great opportunity to apply your cutting-edge AI skills in a renowned research environment.\",\n        \"Application URL\": \"https://www.mpg.de/25086315/aushilfe-mit-ki-chatgpt-expertise-in-teilzeit-6std\",\n        \"Location\": \"85748 Garching bei München\",\n        \"Flexibility\": \"Not specified\",\n        \"Salary Range\": \"Not specified\"\n      },\n      {\n        \"database_id\": \"08dd74d5ca6f630f\",\n        \"Company Name\": \"Dassault Systèmes\",\n        \"Job Title\": \"Working Student (m/f/d) – AI Developer\",\n        \"Industry\": \"Not specified\",\n        \"Reason for Match\": \"This AI Developer student role is a great fit, combining your Python, AI, and software development skills. The position in Munich matches your location and preference for a hands-on technical role.\",\n        \"Application URL\": \"https://www.3ds.com/careers/jobs/working-student-m-f-d-ai-developer-544684\",\n        \"Location\": \"München\",\n        \"Flexibility\": \"Not specified\",\n        \"Salary Range\": \"Not specified\"\n      },\n      {\n        \"database_id\": \"4271013272\",\n        \"Company Name\": \"SRH University\",\n        \"Job Title\": \"Lecturer Data Science f/m/d\",\n        \"Industry\": \"Individual and Family Services\",\n        \"Reason for Match\": \"This role in Munich is a strong thematic match, seeking expertise in Data Science, Machine Learning, Python, and AI — all core strengths of your CV. It offers a unique way to apply your deep knowledge.\",\n        \"Application URL\": \"https://www.srh-karriere.de/alle-jobs/stellenangebot/lecturer-data-science-fmd-muenchen\",\n        \"Location\": \"Munich, Bavaria, Germany\",\n        \"Flexibility\": \"Full-time\",\n        \"Salary Range\": \"Not specified\"\n      },\n      {\n        \"database_id\": \"882c32539fe387c7\",\n        \"Company Name\": \"Infosys\",\n        \"Job Title\": \"MarTech Technologist - Consumer Goods, Retail and Logistics - Germany\",\n        \"Industry\": \"Not specified\",\n        \"Reason for Match\": \"This technical role in Munich leverages your advanced Python and SQL skills. While the MarTech domain is new, it aligns with your stated ability to learn new domains and apply core data skills.\",\n        \"Application URL\": \"https://apply.workable.com/j/5915B6BCE7\",\n        \"Location\": \"München\",\n        \"Flexibility\": \"Vollzeit\",\n        \"Salary Range\": \"Not specified\"\n      },\n      {\n        \"database_id\": \"4271002466\",\n        \"Company Name\": \"K-tronik GmbH\",\n        \"Job Title\": \"Java Entwickler/ Fullstack (m/w/x)\",\n        \"Industry\": \"IT Services and IT Consulting\",\n        \"Reason for Match\": \"This entry-level role near Munich fits your software development interests and experience with simulations. It utilizes your intermediate Java skills and aligns with your native German proficiency.\",\n        \"Application URL\": \"https://www.get-in-it.de/jobsuche/p290749-5dcada10/5dcada10?utm_source=linkedin&utm_medium=cpc&utm_campaign=launch-basic\",\n        \"Location\": \"Ottobrunn, Bavaria, Germany\",\n        \"Flexibility\": \"Full-time\",\n        \"Salary Range\": \"Not specified\"\n      },\n      {\n        \"database_id\": \"4271014655\",\n        \"Company Name\": \"REPA Deutschland\",\n        \"Job Title\": \"Cloud Engineer (m/f/d)\",\n        \"Industry\": \"Wholesale\",\n        \"Reason for Match\": \"While primarily a cloud role, it requires proficiency in Python scripting and is located near Munich. It offers an opportunity to leverage your software engineering skills in a cloud infrastructure environment.\",\n        \"Application URL\": \"https://de.linkedin.com/jobs/view/cloud-engineer-m-f-d-at-repa-deutschland-4271014655\",\n        \"Location\": \"Bergkirchen, Bavaria, Germany\",\n        \"Flexibility\": \"Full-time\",\n        \"Salary Range\": \"Not specified\"\n      },\n      {\n        \"database_id\": \"4268344887\",\n        \"Company Name\": \"REPA\",\n        \"Job Title\": \"Cloud Engineer (m/f/d)\",\n        \"Industry\": \"Wholesale\",\n        \"Reason for Match\": \"This position near Munich, while focused on cloud infrastructure, lists Python scripting as a required skill, which aligns with your advanced programming abilities and provides a path into a technical role.\",\n        \"Application URL\": \"https://de.linkedin.com/jobs/view/cloud-engineer-m-f-d-at-repa-4268344887\",\n        \"Location\": \"Bergkirchen, Bavaria, Germany\",\n        \"Flexibility\": \"Full-time\",\n        \"Salary Range\": \"Not specified\"\n      },\n      {\n        \"database_id\": \"4265426137\",\n        \"Company Name\": \"WAY Group\",\n        \"Job Title\": \"Development Android Application Platform (m/w/d) BMW Group Munich\",\n        \"Industry\": \"Professional Services\",\n        \"Reason for Match\": \"This role in Munich for BMW requires Python and Java, both of which are on your CV. Although it's an Android platform role, the use of your core programming languages makes it a potential fit.\",\n        \"Application URL\": \"https://join.com/companies/waygroup/14511978-development-android-application-platform-m-w-d-bmw-group-munich?pid=e65242534431eadcb0c9\",\n        \"Location\": \"Munich, Bavaria, Germany\",\n        \"Flexibility\": \"Full-time\",\n        \"Salary Range\": \"€72,000.00/yr - €77,000.00/yr\"\n      }\n    ],\n    \"updateOperations\": [\n      {\n        \"json\": {\n          \"id\": \"c4728de3c549eaf9\",\n          \"status\": \"processed\",\n          \"processed_at\": \"2025-07-21T23:50:44.615000+00:00\",\n          \"reason_for_match\": \"Excellent match for a junior data science role in Munich. Directly aligns with your Data Science coursework, practical experience with Python and SQL, and native German proficiency.\"\n        }\n      },\n      {\n        \"json\": {\n          \"id\": \"55486f3995d52645\",\n          \"status\": \"processed\",\n          \"processed_at\": \"2025-07-21T23:50:44.615000+00:00\",\n          \"reason_for_match\": \"Perfectly matches your project experience in applied AI and LLMs. This internship in Munich offers hands-on experience with Python, GPT, and modern AI frameworks that you are skilled in.\"\n        }\n      },\n      {\n        \"json\": {\n          \"id\": \"c83b7b064f423054\",\n          \"status\": \"processed\",\n          \"processed_at\": \"2025-07-21T23:50:44.615000+00:00\",\n          \"reason_for_match\": \"This graduate program is an ideal entry point, matching your preference for a junior role in Munich. It leverages your strong background in Data Mining, Python, and SQL, and requires native German skills.\"\n        }\n      },\n      {\n        \"json\": {\n          \"id\": \"196d17a92a6b29b0\",\n          \"status\": \"processed\",\n          \"processed_at\": \"2025-07-21T23:50:44.615000+00:00\",\n          \"reason_for_match\": \"Strongly aligns with your personal projects using LLMs and prompt engineering. This role in Garching offers a great opportunity to apply your cutting-edge AI skills in a renowned research environment.\"\n        }\n      },\n      {\n        \"json\": {\n          \"id\": \"08dd74d5ca6f630f\",\n          \"status\": \"processed\",\n          \"processed_at\": \"2025-07-21T23:50:44.615000+00:00\",\n          \"reason_for_match\": \"This AI Developer student role is a great fit, combining your Python, AI, and software development skills. The position in Munich matches your location and preference for a hands-on technical role.\"\n        }\n      },\n      {\n        \"json\": {\n          \"id\": \"4271013272\",\n          \"status\": \"processed\",\n          \"processed_at\": \"2025-07-21T23:50:44.615000+00:00\",\n          \"reason_for_match\": \"This role in Munich is a strong thematic match, seeking expertise in Data Science, Machine Learning, Python, and AI — all core strengths of your CV. It offers a unique way to apply your deep knowledge.\"\n        }\n      },\n      {\n        \"json\": {\n          \"id\": \"882c32539fe387c7\",\n          \"status\": \"processed\",\n          \"processed_at\": \"2025-07-21T23:50:44.615000+00:00\",\n          \"reason_for_match\": \"This technical role in Munich leverages your advanced Python and SQL skills. While the MarTech domain is new, it aligns with your stated ability to learn new domains and apply core data skills.\"\n        }\n      },\n      {\n        \"json\": {\n          \"id\": \"4271002466\",\n          \"status\": \"processed\",\n          \"processed_at\": \"2025-07-21T23:50:44.615000+00:00\",\n          \"reason_for_match\": \"This entry-level role near Munich fits your software development interests and experience with simulations. It utilizes your intermediate Java skills and aligns with your native German proficiency.\"\n        }\n      },\n      {\n        \"json\": {\n          \"id\": \"4271014655\",\n          \"status\": \"processed\",\n          \"processed_at\": \"2025-07-21T23:50:44.615000+00:00\",\n          \"reason_for_match\": \"While primarily a cloud role, it requires proficiency in Python scripting and is located near Munich. It offers an opportunity to leverage your software engineering skills in a cloud infrastructure environment.\"\n        }\n      },\n      {\n        \"json\": {\n          \"id\": \"4268344887\",\n          \"status\": \"processed\",\n          \"processed_at\": \"2025-07-21T23:50:44.615000+00:00\",\n          \"reason_for_match\": \"This position near Munich, while focused on cloud infrastructure, lists Python scripting as a required skill, which aligns with your advanced programming abilities and provides a path into a technical role.\"\n        }\n      },\n      {\n        \"json\": {\n          \"id\": \"4265426137\",\n          \"status\": \"processed\",\n          \"processed_at\": \"2025-07-21T23:50:44.615000+00:00\",\n          \"reason_for_match\": \"This role in Munich for BMW requires Python and Java, both of which are on your CV. Although it's an Android platform role, the use of your core programming languages makes it a potential fit.\"\n        }\n      }\n    ]\n  }",
-              "type": "object"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        6000,
-        3240
-      ],
-      "id": "edb01d60-5551-41be-9cf5-69b16e2b84cf",
-      "name": "Edit Fields"
-    },
-    {
-      "parameters": {},
-      "type": "n8n-nodes-base.manualTrigger",
-      "typeVersion": 1,
-      "position": [
-        5780,
-        3240
-      ],
-      "id": "0cc13996-a02d-4634-9d2c-1e04350b1d62",
-      "name": "When clicking ‘Execute workflow’"
-    },
-    {
-      "parameters": {
         "content": "### Upload your Master CV to Drive\n",
         "height": 240,
         "width": 180,
@@ -2466,36 +2432,6 @@
     }
   ],
   "pinData": {
-    "Webhook1": [
-      {
-        "json": {
-          "headers": {
-            "host": "perfect-holy-teal.ngrok-free.app",
-            "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.5 Safari/605.1.15",
-            "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-            "accept-encoding": "gzip, deflate, br",
-            "accept-language": "en-US,en;q=0.9",
-            "cache-control": "max-age=0",
-            "cookie": "abuse_interstitial=perfect-holy-teal.ngrok-free.app; rl_session=RudderEncrypt%3AU2FsdGVkX188cQRJmov0uTDzpjcqziz%2FWSRhDIZJg9DW5Kbwm2Vjc%2FrCAQxE%2F%2FjLtEbzYTR%2FnSab2UiWPyCK2nhOhoK4IRHxHLdfjUj8ycit4%2F0s1y7dHs5x3k4ShmuQ%2BLzBLCmy9h4qX%2BwqlhD7ew%3D%3D; ph_phc_4URIAm1uYfJO7j8kWSe0J8lc8IqnstRLS7Jx8NcakHo_posthog=%7B%22distinct_id%22%3A%22849963298704d60734410b6bdb16d34d7fa41054240b3f5f6f2bdf5be8069285%23d60722ad-eaa1-4d7d-93f1-250b6132b3b3%22%2C%22%24sesid%22%3A%5B1750436932836%2C%2201978dea-f1cc-7997-a8c2-80f6cda3bf93%22%2C1750432674252%5D%2C%22%24epp%22%3Atrue%2C%22%24initial_person_info%22%3A%7B%22r%22%3A%22%24direct%22%2C%22u%22%3A%22https%3A%2F%2Fperfect-holy-teal.ngrok-free.app%2Fsignin%3Fredirect%3D%25252F%22%7D%7D; rl_anonymous_id=RudderEncrypt%3AU2FsdGVkX19wU%2FIombiF1VrCXT7Im%2Fdq1JTc0gzw0O0yRE0j%2FJAGuaSJ0yU5%2FRLQyTEXNAJr4PcCiz450hJJFg%3D%3D; rl_trait=RudderEncrypt%3AU2FsdGVkX1%2BPdIu3aV%2FI3A6oCafymNyAfORIwS3D3Jcmynu0T3rl2OmbKuAMkb6ubSD7bPkkYF%2BB%2BCIFrcgobf9kTI45PAEC2oDDtyQp0o6%2FTc1OXw6ltY2TDzzPEib6pMLNviDPe097aokD%2BtSf0A%3D%3D; rl_user_id=RudderEncrypt%3AU2FsdGVkX1%2FTmZgslvrUOVO5hcWptruJ3Hiq%2BPHgMRJHQYYCjLPt%2FWv0zaDS%2Bcpa08h5kHXZp%2BdesufKniTlJeF9rGxemqqhvpHkYastJttKrGD5XntLykI3a81KQEIL15iMYQD1FddRrhJGz0oLAa0%2BPx%2Bx9Q5ZXZjtl76BL7o%3D; rl_page_init_referrer=RudderEncrypt%3AU2FsdGVkX19qlQnax79fGUnpEZQ97f9Qdu6zanArDCA%3D; rl_page_init_referring_domain=RudderEncrypt%3AU2FsdGVkX1%2FDJqd6SHrpg7QnqzVz3gRF2h8A1TsB8Jw%3D",
-            "priority": "u=0, i",
-            "sec-fetch-dest": "document",
-            "sec-fetch-mode": "navigate",
-            "sec-fetch-site": "same-origin",
-            "sec-gpc": "1",
-            "x-forwarded-for": "2001:a61:3af4:b701:f88d:5ac:3dab:6d64",
-            "x-forwarded-host": "perfect-holy-teal.ngrok-free.app",
-            "x-forwarded-proto": "https"
-          },
-          "params": {},
-          "query": {
-            "jobId": "3994568740"
-          },
-          "body": {},
-          "webhookUrl": "https://perfect-holy-teal.ngrok-free.app/webhook/2f32a889-c6d8-4dda-a550-71d963063aa7",
-          "executionMode": "production"
-        }
-      }
-    ],
     "Cover Letter Agent": [
       {
         "json": {
@@ -3554,22 +3490,6 @@
         ]
       ]
     },
-    "Edit Fields": {
-      "main": [
-        []
-      ]
-    },
-    "When clicking ‘Execute workflow’": {
-      "main": [
-        [
-          {
-            "node": "Edit Fields",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Google Gemini Chat Model4": {
       "ai_languageModel": [
         [
@@ -3613,7 +3533,7 @@
     "executionTimeout": -1,
     "timeSavedPerExecution": 1
   },
-  "versionId": "b3b76fef-2ac6-4b20-b7df-1285bc12ebd3",
+  "versionId": "15e4d772-1a33-4ed9-84c0-bc1de528c373",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "d61f1d8c02b08174ff10b435a65c150febeac76956b2f7e114c99630bac17961"
