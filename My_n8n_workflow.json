@@ -1,5 +1,4 @@
 {
-  "name": "My workflow",
   "nodes": [
     {
       "parameters": {
@@ -14,10 +13,10 @@
       "type": "n8n-nodes-base.scheduleTrigger",
       "typeVersion": 1.2,
       "position": [
-        -20,
-        2840
+        120,
+        1100
       ],
-      "id": "30969afb-08c1-4163-aa38-7f2dd86141d8",
+      "id": "ba264313-c309-4372-afe8-96cf065cf3b4",
       "name": "Schedule Trigger"
     },
     {
@@ -37,10 +36,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1080,
-        2840
+        1220,
+        1100
       ],
-      "id": "e74eb800-2784-42db-902d-649a06436f9e",
+      "id": "b8142087-5077-4254-8037-52508262a7e0",
       "name": "SetResumeField"
     },
     {
@@ -51,26 +50,28 @@
       "type": "n8n-nodes-base.extractFromFile",
       "typeVersion": 1,
       "position": [
-        860,
-        2840
+        1000,
+        1100
       ],
-      "id": "82c129f2-f750-4841-8e53-023180e0bc8d",
+      "id": "eda8d9b3-0877-4220-9f66-37ebe850ad1d",
       "name": "Extract Information from Resume PDF"
     },
     {
       "parameters": {
         "promptType": "=define",
-        "text": "=You are an expert AI assistant specializing in career matching and job recommendation.\n\nYour Goal:\nYour primary task is to analyze a provided dataset of job descriptions from LinkedIn and Indeed, a user's Curriculum Vitae (CV) provided as a string, and the user's job preferences is also provided as a string. Based on this analysis, you must identify and select the top {{ JSON.stringify($('Input').all()[0].json.recommendedJobCount)}}  most suitable job opportunities for the user from the provided list.\n\nInputs You Will Receive:\n\njob_descriptions {{ $json.stringified }}: A collection containing job descriptions scraped from LinkedIn and Indeed. Each job has the following structure:\n{\n  \"id\": [database ID],\n  \"company_name\": [company name],\n  \"job_title\": [job title],\n  \"industry\": [industry],\n  \"application_url\": [URL],\n  \"location\": [job location],\n  \"flexibility\": [work arrangement],\n  \"salary_range\": [salary if available],\n  \"created_at\": [timestamp]\n}\nuser_cv {{ $('SetResumeField').first().json.Resume }}: A single string containing the user's full CV text.\nuser_preferences {{ $('Input').first().json.Preference }}: A single string outlining the user's job preferences (e.g., desired roles, industries, company size, location constraints, salary expectations, work culture).\n\nYour Task Breakdown:\n\nAnalyze: Meticulously parse and understand the content of the user_cv and user_preferences.\nEvaluate: For each of the job_descriptions:\nExtract key information: Company Name, Job Title, Industry (if explicitly mentioned or inferable), and Application URL.\nCompare the job's requirements, responsibilities, and company details against the user's skills, experience (from user_cv), and stated desires (from user_preferences).\nRank: Assess the suitability of each job for the user based on the comparison. Create a ranked list of all scraped jobs from most to least suitable.\nSelect: Choose the top {{ JSON.stringify($('Input').all()[0].json.recommendedJobCount)}} from your ranked list.\nFormat Output: Prepare the final output containing detailed information for only these {{ JSON.stringify($('Input').all()[0].json.recommendedJobCount)}} selected jobs.\n\nOutput Requirements:\n\nYou must return a structured list containing exactly {{ JSON.stringify($('Input').all()[0].json.recommendedJobCount)}} job recommendations. For each of the {{ JSON.stringify($('Input').all()[0].json.recommendedJobCount)}} jobs, provide the following specific details:\n\ndatabase_id: The \"id\" field from the job record.\nCompany Name: The name of the hiring company from \"company_name\".\nJob Title: The official title of the position from \"job_title\".\nIndustry: The industry sector from \"industry\" (if available).\nReason for Match: A brief (1-2 sentences) explanation justifying why this specific job is a strong match for the user. This explanation should explicitly reference alignment between the user's CV/preferences and the job description.\nApplication URL: The direct URL to apply from \"application_url\". If the apply URL is not found or empty, return the linkedin link for this job.\nLocation: The job location from \"location\".\nFlexibility: Work arrangement type from \"flexibility\".\nSalary Range: Salary information from \"salary_range\" if available, otherwise \"Not specified\".\n\nOutput format Example:\n[\n  {\n    \"database_id\": 1,\n    \"Company Name\": \"Innovatech Solutions\",\n    \"Job Title\": \"Senior Software Engineer\",\n    \"Industry\": \"Technology / SaaS\",\n    \"Reason for Match\": \"Strong alignment with your 7 years of backend development experience (Java/Spring) listed in CV and your preference for mid-sized tech companies.\",\n    \"Application URL\": \"https://linkedin.com/jobs/view/1234567890\",\n    \"Location\": \"San Francisco, CA\",\n    \"Flexibility\": \"Hybrid\",\n    \"Salary Range\": \"$120,000 - $150,000\"\n  },\n  {\n    \"database_id\": 2,\n    \"Company Name\": \"FinSecure Corp\",\n    \"Job Title\": \"Data Scientist\",\n    \"Industry\": \"Financial Services\",\n    \"Reason for Match\": \"Matches your PhD in Statistics, experience with machine learning models detailed in your CV, and stated interest in the Fintech sector.\",\n    \"Application URL\": \"https://linkedin.com/jobs/view/0987654321\",\n    \"Location\": \"New York, NY\",\n    \"Flexibility\": \"On-site\",\n    \"Salary Range\": \"$110,000 - $130,000\"\n  },\n  {\n    \"database_id\": 3,\n    \"Company Name\": \"Global Health Initiative\",\n    \"Job Title\": \"Biostatistician\",\n    \"Industry\": \"Healthcare / Research\",\n    \"Reason for Match\": \"Aligns with your strong statistical background and published research in healthcare outcomes mentioned in your CV.\",\n    \"Application URL\": \"https://linkedin.com/jobs/view/5678901234\",\n    \"Location\": \"Boston, MA\",\n    \"Flexibility\": \"Hybrid\",\n    \"Salary Range\": \"Not specified\"\n  },\n  {\n    \"database_id\": 4,\n    \"Company Name\": \"EcoSolutions\",\n    \"Job Title\": \"Sustainability Analyst\",\n    \"Industry\": \"Environmental Services\",\n    \"Reason for Match\": \"Matches your environmental science background and stated preference for working in sustainability-focused organizations.\",\n    \"Application URL\": \"https://linkedin.com/jobs/view/2345678901\",\n    \"Location\": \"Portland, OR\",\n    \"Flexibility\": \"Remote\",\n    \"Salary Range\": \"$85,000 - $95,000\"\n  },\n  {\n    \"database_id\": 5,\n    \"Company Name\": \"TechStart Accelerator\",\n    \"Job Title\": \"Technology Consultant\",\n    \"Industry\": \"Consulting\",\n    \"Reason for Match\": \"Aligns with your technical advisory experience and preference for varied project work mentioned in your preferences.\",\n    \"Application URL\": \"https://linkedin.com/jobs/view/3456789012\",\n    \"Location\": \"Austin, TX\",\n    \"Flexibility\": \"Hybrid\",\n    \"Salary Range\": \"$100,000 - $120,000\"\n  }, {...} , {...}, ...\n]",
+        "text": "=You are an expert AI assistant specializing in career matching and job recommendation.\n\n\nYour Goal:\nYour primary task is to analyze a provided dataset of job descriptions from LinkedIn and Indeed, a user's Curriculum Vitae (CV) provided as a string, and the user's job preferences is also provided as a string. Based on this analysis, you must identify and select the top {{ JSON.stringify($('Input').all()[0].json.recommendedJobCount)}}  most suitable job opportunities for the user from the provided list.\n\nInputs You Will Receive:\n\njob_descriptions {{ $json.stringified }}: A collection containing job descriptions scraped from LinkedIn and Indeed. Each job has the following structure:\n{\n  \"id\": [database ID],\n  \"company_name\": [company name],\n  \"job_title\": [job title],\n  \"industry\": [industry],\n  \"application_url\": [URL],\n  \"location\": [job location],\n  \"flexibility\": [work arrangement],\n  \"salary_range\": [salary if available],\n  \"created_at\": [timestamp]\n}\nuser_cv {{ $('SetResumeField').first().json.Resume }}: A single string containing the user's full CV text.\nuser_preferences {{ $('Input').first().json.Preference }}: A single string outlining the user's job preferences (e.g., desired roles, industries, company size, location constraints, salary expectations, work culture).\n\nYour Task Breakdown:\n\nAnalyze: Meticulously parse and understand the content of the user_cv and user_preferences.\nEvaluate: For each of the job_descriptions:\nExtract key information: Company Name, Job Title, Industry (if explicitly mentioned or inferable), and Application URL.\nCompare the job's requirements, responsibilities, and company details against the user's skills, experience (from user_cv), and stated desires (from user_preferences).\nRank: Assess the suitability of each job for the user based on the comparison. Create a ranked list of all scraped jobs from most to least suitable.\nSelect: Choose the top {{ JSON.stringify($('Input').all()[0].json.recommendedJobCount)}} from your ranked list.\nFormat Output: Prepare the final output containing detailed information for only these {{ JSON.stringify($('Input').all()[0].json.recommendedJobCount)}} selected jobs.\n\nOutput Requirements:\n\nYou must return a structured list containing exactly {{ JSON.stringify($('Input').all()[0].json.recommendedJobCount)}} job recommendations. For each of the {{ JSON.stringify($('Input').all()[0].json.recommendedJobCount)}} jobs, provide the following specific details:\n\ndatabase_id: The \"id\" field from the job record.\nCompany Name: The name of the hiring company from \"company_name\".\nJob Title: The official title of the position from \"job_title\".\nIndustry: The industry sector from \"industry\" (if available).\nReason for Match: A brief (1-2 sentences) explanation justifying why this specific job is a strong match for the user. This explanation should explicitly reference alignment between the user's CV/preferences and the job description.\nApplication URL: The direct URL to apply from \"application_url\". If the apply URL is not found or empty, return the linkedin link for this job.\nLocation: The job location from \"location\".\nFlexibility: Work arrangement type from \"flexibility\".\nSalary Range: Salary information from \"salary_range\" if available, otherwise \"Not specified\".\n\nOutput format Example:\n[\n  {\n    \"database_id\": 1,\n    \"Company Name\": \"Innovatech Solutions\",\n    \"Job Title\": \"Senior Software Engineer\",\n    \"Industry\": \"Technology / SaaS\",\n    \"Reason for Match\": \"Strong alignment with your 7 years of backend development experience (Java/Spring) listed in CV and your preference for mid-sized tech companies.\",\n    \"Application URL\": \"https://linkedin.com/jobs/view/1234567890\",\n    \"Location\": \"San Francisco, CA\",\n    \"Flexibility\": \"Hybrid\",\n    \"Salary Range\": \"$120,000 - $150,000\"\n  },\n  {\n    \"database_id\": 2,\n    \"Company Name\": \"FinSecure Corp\",\n    \"Job Title\": \"Data Scientist\",\n    \"Industry\": \"Financial Services\",\n    \"Reason for Match\": \"Matches your PhD in Statistics, experience with machine learning models detailed in your CV, and stated interest in the Fintech sector.\",\n    \"Application URL\": \"https://linkedin.com/jobs/view/0987654321\",\n    \"Location\": \"New York, NY\",\n    \"Flexibility\": \"On-site\",\n    \"Salary Range\": \"$110,000 - $130,000\"\n  },\n  {\n    \"database_id\": 3,\n    \"Company Name\": \"Global Health Initiative\",\n    \"Job Title\": \"Biostatistician\",\n    \"Industry\": \"Healthcare / Research\",\n    \"Reason for Match\": \"Aligns with your strong statistical background and published research in healthcare outcomes mentioned in your CV.\",\n    \"Application URL\": \"https://linkedin.com/jobs/view/5678901234\",\n    \"Location\": \"Boston, MA\",\n    \"Flexibility\": \"Hybrid\",\n    \"Salary Range\": \"Not specified\"\n  },\n  {\n    \"database_id\": 4,\n    \"Company Name\": \"EcoSolutions\",\n    \"Job Title\": \"Sustainability Analyst\",\n    \"Industry\": \"Environmental Services\",\n    \"Reason for Match\": \"Matches your environmental science background and stated preference for working in sustainability-focused organizations.\",\n    \"Application URL\": \"https://linkedin.com/jobs/view/2345678901\",\n    \"Location\": \"Portland, OR\",\n    \"Flexibility\": \"Remote\",\n    \"Salary Range\": \"$85,000 - $95,000\"\n  },\n  {\n    \"database_id\": 5,\n    \"Company Name\": \"TechStart Accelerator\",\n    \"Job Title\": \"Technology Consultant\",\n    \"Industry\": \"Consulting\",\n    \"Reason for Match\": \"Aligns with your technical advisory experience and preference for varied project work mentioned in your preferences.\",\n    \"Application URL\": \"https://linkedin.com/jobs/view/3456789012\",\n    \"Location\": \"Austin, TX\",\n    \"Flexibility\": \"Hybrid\",\n    \"Salary Range\": \"$100,000 - $120,000\"\n  }, {...} , {...}, ...\n]",
         "hasOutputParser": true,
-        "options": {}
+        "options": {
+          "systemMessage": "You are an expert AI data processor. Your sole purpose is to analyze a provided list of job descriptions, compare it against a user's CV and preferences, and return a ranked and filtered list of the most suitable jobs.\n\n\n### CRITICAL RULES:\n1.  **DO NOT INVENT DATA:** You must ONLY use the jobs provided in the `job_descriptions` input. You are strictly forbidden from creating, inventing, or hallucinating job postings, even if you cannot find enough suitable matches.\n2.  **HANDLE EMPTY/UNSUITABLE INPUT:** If you cannot find any suitable jobs in the provided list that match the user's profile, or if the input list is empty, you MUST return an empty JSON array `[]`.\n3.  **RETURN FEWER IF NECESSARY:** If you find fewer suitable jobs than the requested number, you MUST return only the ones you found. Do not add fillers.\n4.  **JSON ONLY:** Your entire response MUST be a single, valid JSON array and nothing else. Do not include any conversational text, explanations, apologies, or markdown formatting like ```json.\n\n\n### Your Task:\nAnalyze the user's CV and preferences. Then, evaluate each job in the `job_descriptions` list. Select the top `recommendedJobCount` most suitable jobs and return them in the specified format.\n\n### Output Requirements:\n-   Return a JSON array of job objects.\n-   Each object must contain: `database_id`, `Company Name`, `Job Title`, `Industry`, `Reason for Match`, `Application URL`, `Location`, `Flexibility`, and `Salary Range`.\n-   The `database_id` and other fields MUST come directly from the original job data you were given.\n"
+        }
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 1.8,
       "position": [
-        4820,
-        2815
+        4960,
+        1080
       ],
-      "id": "27ac2318-c06a-4369-9b78-ba8cbb5503de",
+      "id": "46087338-488d-4da3-8f17-e30933553de3",
       "name": "AI Agent: Find Best-matched jobs",
       "retryOnFail": true,
       "executeOnce": true
@@ -85,35 +86,35 @@
       "type": "n8n-nodes-base.gmail",
       "typeVersion": 2.1,
       "position": [
-        6452,
-        2915
+        6600,
+        1180
       ],
-      "id": "fab72136-d4fe-4db5-9eda-4975ad71d963",
+      "id": "a1e2d079-66d2-47bf-be86-b972f1c3468a",
       "name": "Email the top job recommendations",
       "webhookId": "4bad9db8-f115-4943-a6e7-7d319ea117ef",
       "credentials": {
         "gmailOAuth2": {
-          "id": "1Ype0s2KCYxt8cHF",
+          "id": "gegIMpsrZsuIjQU7",
           "name": "Gmail account"
         }
       }
     },
     {
       "parameters": {
-        "modelName": "models/gemini-2.5-pro-preview-06-05",
+        "modelName": "models/gemini-2.5-pro-preview-05-06",
         "options": {}
       },
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1,
       "position": [
-        4820,
-        3040
+        4960,
+        1300
       ],
-      "id": "757bd2e4-fc13-4968-aed8-69eea1e2a602",
+      "id": "cef80697-b251-46a9-b004-cc33d878902c",
       "name": "Google Gemini Chat Model",
       "credentials": {
         "googlePalmApi": {
-          "id": "aw7Pold22PTIhMYc",
+          "id": "iK8kH8n2CiqT3aRf",
           "name": "Google Gemini(PaLM) Api account"
         }
       }
@@ -171,10 +172,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        200,
-        2840
+        340,
+        1100
       ],
-      "id": "94798a4b-8a78-45b3-9a63-2012f88c6074",
+      "id": "0deb8e5b-b81f-496a-8dcd-7e286039f03d",
       "name": "Input"
     },
     {
@@ -194,10 +195,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        4600,
-        2815
+        4740,
+        1080
       ],
-      "id": "2ffd628c-60f0-4427-b40e-b4cb04a2bebe",
+      "id": "d1f0b632-4cfb-4535-937c-3e87b6345580",
       "name": "stringify_json"
     },
     {
@@ -217,11 +218,11 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1740,
-        2165
+        1880,
+        440
       ],
       "name": "Extract Run ID",
-      "id": "605a4fa6-9e35-4125-a9df-9fa5e0c2b543"
+      "id": "895ce36e-92d5-425c-8c7f-df83c4094e3d"
     },
     {
       "parameters": {
@@ -231,11 +232,11 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        2180,
-        2165
+        2320,
+        440
       ],
       "name": "Check Run Status",
-      "id": "07ddf898-1488-4735-937b-259ea99c979f"
+      "id": "082d8fce-785d-473b-ae28-95092901e50f"
     },
     {
       "parameters": {
@@ -252,11 +253,11 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 1,
       "position": [
-        2400,
-        2090
+        2540,
+        360
       ],
       "name": "Check if Succeeded",
-      "id": "570d341d-2fb4-43d9-9838-725c8c0257a5"
+      "id": "5dde9a49-713a-4c07-a50e-d47bce026982"
     },
     {
       "parameters": {
@@ -265,11 +266,11 @@
       "type": "n8n-nodes-base.wait",
       "typeVersion": 1.1,
       "position": [
-        2620,
-        2265
+        2760,
+        540
       ],
       "name": "Wait and Retry",
-      "id": "f3c9bc9d-c90b-4ba1-8b86-a418086cf73f",
+      "id": "a76ca6d8-8394-402d-86bc-e96880bffd69",
       "webhookId": "e4e481f0-c4e7-44c8-b8f1-6348cdb8e30c"
     },
     {
@@ -280,10 +281,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        6012,
-        2815
+        6160,
+        1080
       ],
-      "id": "69a570fa-ff87-40d3-8d60-4c6b7d65fe12",
+      "id": "2fe0b5e4-8622-4636-aa9b-3fe2417ac8e5",
       "name": "update_job_status",
       "alwaysOutputData": false,
       "notesInFlow": false
@@ -305,11 +306,11 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1740,
-        3065
+        1880,
+        1340
       ],
       "name": "Extract Run ID1",
-      "id": "5214e817-9ec1-41c7-8099-f019a34020e0"
+      "id": "b97dd93c-2d9e-40bd-89e5-7c4d69dbca01"
     },
     {
       "parameters": {
@@ -319,11 +320,11 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        2180,
-        3065
+        2320,
+        1340
       ],
       "name": "Check Run Status1",
-      "id": "44b0eb2c-579b-4568-a6f1-2f2cc0d6431f"
+      "id": "fbc17869-60e6-4e12-9902-4cdd3f1f3b8d"
     },
     {
       "parameters": {
@@ -340,11 +341,11 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 1,
       "position": [
-        2400,
-        2990
+        2540,
+        1260
       ],
       "name": "Check if Succeeded1",
-      "id": "e894ba9a-e92f-4832-9ab0-6eb94190e94d"
+      "id": "6b44b5e5-e7bb-458c-b8d8-a20bf5e4ff0d"
     },
     {
       "parameters": {
@@ -354,11 +355,11 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        2620,
-        2940
+        2760,
+        1200
       ],
       "name": "Get Dataset Items1",
-      "id": "b6ffd169-f8a9-4390-ba17-e1a5fea55d7a"
+      "id": "b737bfcf-57da-47ee-897d-5cbe7ad6ff29"
     },
     {
       "parameters": {
@@ -367,11 +368,11 @@
       "type": "n8n-nodes-base.wait",
       "typeVersion": 1.1,
       "position": [
-        2620,
-        3165
+        2760,
+        1440
       ],
       "name": "Wait and Retry1",
-      "id": "5f4601e3-0bf2-46a1-8a4c-22efd2cfc9ed",
+      "id": "ce9afdd7-3d85-44d1-9b7c-16a9e8c0c8ae",
       "webhookId": "abb7cef4-3e55-4ccc-a3b0-e53c80156cd2"
     },
     {
@@ -381,10 +382,10 @@
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3.1,
       "position": [
-        3060,
-        2694
+        3200,
+        960
       ],
-      "id": "d01e2015-cf4c-41e3-9f1d-a45d116a378c",
+      "id": "942a3cc7-88be-40cb-b40e-32bf40bf0da6",
       "name": "Merge"
     },
     {
@@ -409,11 +410,11 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        1520,
-        2165
+        1660,
+        440
       ],
       "name": "start_apify_run_linkedin",
-      "id": "28744bea-986b-4fbd-8bfe-f965d3169998"
+      "id": "46c07d48-62b9-4544-b584-d5e356aa73e2"
     },
     {
       "parameters": {
@@ -436,23 +437,23 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        1520,
-        3065
+        1660,
+        1340
       ],
       "name": "start_apify_run_indeed",
-      "id": "32354d10-65c0-4582-abff-4f534652a571"
+      "id": "2ccd68f3-9c0b-4e66-8cfc-35418444860c"
     },
     {
       "parameters": {
         "jsCode": "// 获取要更新的操作\nconst updateOps = $input.first().json.updateOperations;\n\n// 将每个更新操作拆分为单独的项\nreturn updateOps.map(op => op.json);"
       },
-      "id": "090ce831-c41e-418d-a6cd-0ebdbc5cfaba",
+      "id": "cc430bef-52e7-4b16-8d71-9ae533cd4436",
       "name": "extract_update_operation",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        6232,
-        2715
+        6380,
+        980
       ]
     },
     {
@@ -465,10 +466,10 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        1460,
-        2000
+        1600,
+        260
       ],
-      "id": "2561ea69-c4d9-4c1b-a1be-0240f83f923d",
+      "id": "b513a91b-5ec9-45c6-a56d-8148d3f1743d",
       "name": "Sticky Note14"
     },
     {
@@ -488,11 +489,11 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1740,
-        3515
+        1880,
+        1780
       ],
       "name": "Extract Run ID2",
-      "id": "3be9f371-a80d-42a7-abfb-55ad2ef5bfc7"
+      "id": "0c7e400b-5b0c-4f1a-ae45-f82b83946162"
     },
     {
       "parameters": {
@@ -502,11 +503,11 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        2180,
-        3515
+        2320,
+        1780
       ],
       "name": "Check Run Status2",
-      "id": "e3cc2aaa-04ab-43b6-9958-3826437d6bc2"
+      "id": "f1fc9769-8338-403f-b30f-4219db934691"
     },
     {
       "parameters": {
@@ -523,11 +524,11 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 1,
       "position": [
-        2400,
-        3440
+        2540,
+        1700
       ],
       "name": "Check if Succeeded2",
-      "id": "a2d2cd31-24fe-4c5c-b08f-82bae6a3e0cb"
+      "id": "009ee3d6-ebb7-4b6b-874c-7a00cb9a4ba6"
     },
     {
       "parameters": {
@@ -537,11 +538,11 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        2620,
-        3390
+        2760,
+        1660
       ],
       "name": "Get Dataset Items2",
-      "id": "3f1a7aaf-30e6-4109-8692-8ba726678682"
+      "id": "a5b4c023-3a00-46c6-80ad-56aeeffcecb1"
     },
     {
       "parameters": {
@@ -550,11 +551,11 @@
       "type": "n8n-nodes-base.wait",
       "typeVersion": 1.1,
       "position": [
-        2620,
-        3615
+        2760,
+        1880
       ],
       "name": "Wait and Retry2",
-      "id": "4bdbad8f-d374-4ad4-acb1-f3654974e169",
+      "id": "0411be33-987f-4118-9f39-3802027730d8",
       "webhookId": "ded8ac5b-231b-457d-80be-d659f5d880e8"
     },
     {
@@ -578,24 +579,24 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        1520,
-        3515
+        1660,
+        1780
       ],
       "name": "start_apify_run_indeed1",
-      "id": "bee8cdd5-4df4-4cad-854c-7a6bc114d875"
+      "id": "242ac01f-51c0-46a3-9153-919914cea8ee"
     },
     {
       "parameters": {
         "language": "python",
-        "pythonCode": "# Helper function to normalize dictionary keys\ndef normalize_keys(data_dict):\n    \"\"\"\n    Takes a dictionary and returns a new dictionary with its keys\n    normalized (lowercase, no spaces, no underscores).\n    \"\"\"\n    normalized_dict = {}\n\n    for key, value in data_dict.items():\n        # 1. Convert to string, 2. Lowercase, 3. Remove space, 4. Remove underscore\n        normalized_key = str(key).lower().replace(' ', '').replace('_', '')\n        normalized_dict[normalized_key] = value\n    return normalized_dict\n\n# --- Main Execution Block ---\n\n# Get the data from the previous node\n# Assuming the AI agent's output is the direct input to this node\ninput_data = _data\njobs = input_data.matchedJobs\n# norm_jobs = [normalize_keys(job) for job in jobs]\n# return norm_jobs\njob_listings_html = []\n# Create an HTML block for each job\nfor job in jobs:\n    # Normalize the keys of the current job object\n    norm_job = normalize_keys(job)\n    \n    # Now, we can access the data with consistent, clean keys\n    # webhook_base_url = _('Input').first().json.webhookBaseUrl\n    webhook_base_url = \"abc\"#_('Input').first().json.webhookBaseUrl\n  \n    company_name = norm_job.get('companyname')\n    job_title = norm_job.get('jobtitle', 'N/A')\n    industry = norm_job.get('industry', 'N/A')\n    flexibility = norm_job.get('flexibility', 'N/A')\n    salary_range = norm_job.get('salaryrange', 'N/A')\n    location = norm_job.get('location', 'N/A')\n    reason_for_match = norm_job.get('reasonformatch', 'N/A')\n    application_url = norm_job.get('applicationurl', '#')\n    database_id = norm_job.get('databaseid', '')\n\n    html_block = f\"\"\"\n    <tr>\n        <td style=\"padding: 0 25px;\">\n            <table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"border: 1px solid #dce3ea; border-radius: 10px; margin-bottom: 25px; overflow: hidden;\">\n                <tr>\n                    <td style=\"background-color: #4a6fa5; color: #ffffff; padding: 18px 20px;\">\n                        <strong style=\"font-size: 18px;\">{company_name}</strong><br>\n                        <span style=\"font-size: 14px; opacity: 0.9;\">{job_title}</span>\n                    </td>\n                </tr>\n                <tr>\n                    <td style=\"padding: 20px; background-color: #ffffff;\">\n                        <div style=\"display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px;\">\n                            <div style=\"background-color: #eef2f7; color: #4a6fa5; border-radius: 20px; padding: 8px 14px; font-size: 13px; display: inline-block;\">{industry}</div>\n                            <div style=\"background-color: #f0f7f4; color: #00a06a; border-radius: 20px; padding: 8px 14px; font-size: 13px; display: inline-block;\">{flexibility}</div>\n                            <div style=\"background-color: #f7f4f0; color: #a06a00; border-radius: 20px; padding: 8px 14px; font-size: 13px; display: inline-block;\">{salary_range}</div>\n                        </div>\n                        <div style=\"margin-bottom: 12px; background-color: #fafafa; padding: 12px; border-radius: 6px;\">\n                            <table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\">\n                                <tr>\n                                    <td style=\"padding-bottom: 8px;\">\n                                        <span style=\"font-size: 13px; color: #666666;\">📍 Location:</span>\n                                        <span style=\"font-size: 13px; color: #333333; font-weight: bold; margin-left: 4px;\">{location}</span>\n                                    </td>\n                                </tr>\n                            </table>\n                        </div>\n                        <div style=\"margin-bottom: 18px; border-left: 4px solid #4a6fa5; padding-left: 14px; background-color: #f9f9f9; padding-top: 10px; padding-bottom: 10px;\">\n                            <strong style=\"color: #2a5298; font-size: 15px;\">Why this matches your profile:</strong>\n                            <p style=\"font-size: 13px; color: #444444; margin: 10px 0 0;\">{reason_for_match}</p>\n                        </div>\n                        <a href=\"{application_url}\" target=\"_blank\" style=\"display: inline-block; background-color: #00c07f; color: #ffffff; text-decoration: none; padding: 12px 24px; font-size: 14px; font-weight: bold; border-radius: 6px;\">Apply Now</a>\n                        <div style=\"display: flex; margin-top: 15px;\">\n                            <a href=\"{webhook_base_url}/webhook/2f32a889-c6d8-4dda-a550-71d963063aa7?jobId={database_id}\" target=\"_blank\" style=\"display: inline-block; background-color: #4a6fa5; color: #ffffff; text-decoration: none; padding: 8px 16px; font-size: 12px; border-radius: 4px;\">Generate Cover Letter</a>\n                        </div>\n                    </td>\n                </tr>\n            </table>\n        </td>\n    </tr>\n    \"\"\"\n    job_listings_html.append(html_block)\n\n# Parse the job list into the main template\nfull_html = f\"\"\"<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Your Tailored Career Opportunities</title>\n</head>\n<body style=\"font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif; line-height: 1.6; color: #333333; background-color: #f5f7fa; margin: 0; padding: 0;\">\n    <table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\">\n        <tr>\n            <td align=\"center\" style=\"padding: 30px 15px;\">\n                <table width=\"600\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"background-color: #ffffff; border-collapse: collapse; box-shadow: 0 0 12px rgba(0,0,0,0.05); border-radius: 8px; overflow: hidden;\">\n                    <tr>\n                        <td style=\"background-color: #2a5298; color: #ffffff; padding: 40px 30px; text-align: center;\">\n                            <h1 style=\"margin: 0; font-size: 24px; font-weight: bold;\">Your Personalized Career Opportunities</h1>\n                            <p style=\"margin: 15px 0 0; font-size: 15px; opacity: 0.9;\">Handpicked opportunities aligned with your expertise and preferences</p>\n                        </td>\n                    </tr>\n                    <tr><td height=\"30\"></td></tr>\n                    {''.join(job_listings_html)}\n                </table>\n            </td>\n        </tr>\n    </table>\n</body>\n</html>\"\"\"\n\nreturn [{'json': {'html': full_html}}]"
+        "pythonCode": "# Helper function to normalize dictionary keys\ndef normalize_keys(data_dict):\n    \"\"\"\n    Takes a dictionary and returns a new dictionary with its keys\n    normalized (lowercase, no spaces, no underscores).\n    \"\"\"\n    normalized_dict = {}\n\n    for key, value in data_dict.items():\n        # 1. Convert to string, 2. Lowercase, 3. Remove space, 4. Remove underscore\n        normalized_key = str(key).lower().replace(' ', '').replace('_', '')\n        normalized_dict[normalized_key] = value\n    return normalized_dict\n\n# --- Main Execution Block ---\n\n# Get the data from the previous node\n# Assuming the AI agent's output is the direct input to this node\ninput_data = _data\njobs = input_data.matchedJobs\n# norm_jobs = [normalize_keys(job) for job in jobs]\n# return norm_jobs\njob_listings_html = []\n# Create an HTML block for each job\nfor job in jobs:\n    # Normalize the keys of the current job object\n    norm_job = normalize_keys(job)\n    \n    # Now, we can access the data with consistent, clean keys\n    webhook_base_url = _('Input').first().json.webhookBaseUrl\n  \n    company_name = norm_job.get('companyname')\n    job_title = norm_job.get('jobtitle', 'N/A')\n    industry = norm_job.get('industry', 'N/A')\n    flexibility = norm_job.get('flexibility', 'N/A')\n    salary_range = norm_job.get('salaryrange', 'N/A')\n    location = norm_job.get('location', 'N/A')\n    reason_for_match = norm_job.get('reasonformatch', 'N/A')\n    application_url = norm_job.get('applicationurl', '#')\n    database_id = norm_job.get('databaseid', '')\n\n    html_block = f\"\"\"\n    <tr>\n        <td style=\"padding: 0 25px;\">\n            <table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"border: 1px solid #dce3ea; border-radius: 10px; margin-bottom: 25px; overflow: hidden;\">\n                <tr>\n                    <td style=\"background-color: #4a6fa5; color: #ffffff; padding: 18px 20px;\">\n                        <strong style=\"font-size: 18px;\">{company_name}</strong><br>\n                        <span style=\"font-size: 14px; opacity: 0.9;\">{job_title}</span>\n                    </td>\n                </tr>\n                <tr>\n                    <td style=\"padding: 20px; background-color: #ffffff;\">\n                        <div style=\"display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px;\">\n                            <div style=\"background-color: #eef2f7; color: #4a6fa5; border-radius: 20px; padding: 8px 14px; font-size: 13px; display: inline-block;\">{industry}</div>\n                            <div style=\"background-color: #f0f7f4; color: #00a06a; border-radius: 20px; padding: 8px 14px; font-size: 13px; display: inline-block;\">{flexibility}</div>\n                            <div style=\"background-color: #f7f4f0; color: #a06a00; border-radius: 20px; padding: 8px 14px; font-size: 13px; display: inline-block;\">{salary_range}</div>\n                        </div>\n                        <div style=\"margin-bottom: 12px; background-color: #fafafa; padding: 12px; border-radius: 6px;\">\n                            <table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\">\n                                <tr>\n                                    <td style=\"padding-bottom: 8px;\">\n                                        <span style=\"font-size: 13px; color: #666666;\">📍 Location:</span>\n                                        <span style=\"font-size: 13px; color: #333333; font-weight: bold; margin-left: 4px;\">{location}</span>\n                                    </td>\n                                </tr>\n                            </table>\n                        </div>\n                        <div style=\"margin-bottom: 18px; border-left: 4px solid #4a6fa5; padding-left: 14px; background-color: #f9f9f9; padding-top: 10px; padding-bottom: 10px;\">\n                            <strong style=\"color: #2a5298; font-size: 15px;\">Why this matches your profile:</strong>\n                            <p style=\"font-size: 13px; color: #444444; margin: 10px 0 0;\">{reason_for_match}</p>\n                        </div>\n                        <a href=\"{application_url}\" target=\"_blank\" style=\"display: inline-block; background-color: #00c07f; color: #ffffff; text-decoration: none; padding: 12px 24px; font-size: 14px; font-weight: bold; border-radius: 6px;\">Apply Now</a>\n                        <div style=\"display: flex; margin-top: 15px;\">\n                            <a href=\"{webhook_base_url}/webhook/2f32a889-c6d8-4dda-a550-71d963063aa7?jobId={database_id}\" target=\"_blank\" style=\"display: inline-block; background-color: #4a6fa5; color: #ffffff; text-decoration: none; padding: 8px 16px; font-size: 12px; border-radius: 4px;\">Generate Cover Letter</a>\n                        </div>\n                    </td>\n                </tr>\n            </table>\n        </td>\n    </tr>\n    \"\"\"\n    job_listings_html.append(html_block)\n\n# Parse the job list into the main template\nfull_html = f\"\"\"<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>Your Tailored Career Opportunities</title>\n</head>\n<body style=\"font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif; line-height: 1.6; color: #333333; background-color: #f5f7fa; margin: 0; padding: 0;\">\n    <table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\">\n        <tr>\n            <td align=\"center\" style=\"padding: 30px 15px;\">\n                <table width=\"600\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"background-color: #ffffff; border-collapse: collapse; box-shadow: 0 0 12px rgba(0,0,0,0.05); border-radius: 8px; overflow: hidden;\">\n                    <tr>\n                        <td style=\"background-color: #2a5298; color: #ffffff; padding: 40px 30px; text-align: center;\">\n                            <h1 style=\"margin: 0; font-size: 24px; font-weight: bold;\">Your Personalized Career Opportunities</h1>\n                            <p style=\"margin: 15px 0 0; font-size: 15px; opacity: 0.9;\">Handpicked opportunities aligned with your expertise and preferences</p>\n                        </td>\n                    </tr>\n                    <tr><td height=\"30\"></td></tr>\n                    {''.join(job_listings_html)}\n                </table>\n            </td>\n        </tr>\n    </table>\n</body>\n</html>\"\"\"\n\nreturn [{'json': {'html': full_html}}]"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        6232,
-        2915
+        6380,
+        1180
       ],
-      "id": "f609898d-8004-494c-bb0e-5a108e7119b0",
+      "id": "64988cd2-274f-42a7-b6a3-8204f7596585",
       "name": "generate_html_template_py"
     },
     {
@@ -609,16 +610,16 @@
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.6,
       "position": [
-        3500,
-        2715
+        3640,
+        980
       ],
-      "id": "fd28ff75-7b8f-474e-b72d-09098ad35030",
+      "id": "7e68be85-a8d8-43c7-aca4-b2d342ce7775",
       "name": "Get Existing Jobs from DB",
       "alwaysOutputData": true,
       "executeOnce": false,
       "credentials": {
         "postgres": {
-          "id": "j5OLrN19Z4DpykWJ",
+          "id": "KBXZvBBfjIrNeuKP",
           "name": "Postgres account"
         }
       }
@@ -632,10 +633,10 @@
       "type": "n8n-nodes-base.splitOut",
       "typeVersion": 1,
       "position": [
-        3940,
-        2815
+        4080,
+        1080
       ],
-      "id": "1bab553a-62a5-46aa-9446-248ff1675e01",
+      "id": "497c3648-9e7e-4a5d-a61f-a066ae1f00bc",
       "name": "Split Out",
       "alwaysOutputData": false
     },
@@ -648,10 +649,10 @@
       "type": "n8n-nodes-base.splitOut",
       "typeVersion": 1,
       "position": [
-        3940,
-        2615
+        4080,
+        880
       ],
-      "id": "bb418667-06c2-4c50-923e-a24e1f127556",
+      "id": "9d0bf5d9-d77c-4d32-b962-c0c6e60fec7f",
       "name": "Split Out1"
     },
     {
@@ -661,31 +662,11 @@
       "name": "GetDate",
       "type": "n8n-nodes-base.function",
       "position": [
-        1540,
-        4140
+        1680,
+        2400
       ],
       "typeVersion": 1,
-      "id": "ce87d2da-f52f-4040-b505-74433a08ee83"
-    },
-    {
-      "parameters": {
-        "model": "deepseek-reasoner",
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.lmChatDeepSeek",
-      "typeVersion": 1,
-      "position": [
-        3600,
-        4540
-      ],
-      "id": "fe9024ea-c40a-4753-a106-7658ceead5c7",
-      "name": "DeepSeek Chat Model1",
-      "credentials": {
-        "deepSeekApi": {
-          "id": "ulkWYFwSYDP4zvCM",
-          "name": "DeepSeek account"
-        }
-      }
+      "id": "d74f8c22-b87e-488f-827e-e54eefc95c66"
     },
     {
       "parameters": {
@@ -695,10 +676,10 @@
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2,
       "position": [
-        880,
-        4140
+        1020,
+        2400
       ],
-      "id": "6b870da2-086b-4175-a1d3-413cd6ea1b35",
+      "id": "53391278-d20c-4f6f-9e84-c211e6ce5dfa",
       "name": "Webhook1",
       "webhookId": "4525e7c3-900a-46ba-936b-b99a83c6aa6e"
     },
@@ -711,10 +692,10 @@
       "type": "n8n-nodes-base.markdown",
       "typeVersion": 1,
       "position": [
-        4500,
-        4340
+        4860,
+        2600
       ],
-      "id": "e6d2e4f5-3842-4d24-90ad-0ebe57b460c8",
+      "id": "68c50d9d-1b74-4563-9ecf-251653218bf1",
       "name": "Markdown1"
     },
     {
@@ -724,10 +705,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        4220,
-        4340
+        4580,
+        2600
       ],
-      "id": "58558bea-c07b-452e-8805-fbfb6d81e735",
+      "id": "e2834198-a584-4fec-ab26-5fce314e77b4",
       "name": "parse_to_markdown1"
     },
     {
@@ -737,10 +718,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        4800,
-        4340
+        5160,
+        2600
       ],
-      "id": "cc090f59-e14a-4445-994c-e062c5fe8cba",
+      "id": "0b6dc164-5760-41cd-8de4-51d254c0908b",
       "name": "parse_to_paragraphs1"
     },
     {
@@ -750,167 +731,11 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        5240,
-        4340
+        5600,
+        2600
       ],
-      "id": "c8208a24-e8e7-43f5-b3a9-f1366ee8ddaa",
+      "id": "be29b119-674c-40f4-98c0-9f5995b691cf",
       "name": "return_all_items1"
-    },
-    {
-      "parameters": {
-        "resource": "block",
-        "blockId": {
-          "__rl": true,
-          "value": "={{ $('create_new_cover_letter1').item.json.id }}",
-          "mode": "id"
-        },
-        "blockUi": {
-          "blockValues": [
-            {
-              "textContent": "={{ $json.content }}"
-            }
-          ]
-        }
-      },
-      "type": "n8n-nodes-base.notion",
-      "typeVersion": 2.2,
-      "position": [
-        5460,
-        4340
-      ],
-      "id": "5be7be70-ba73-461e-8e88-ccc690bee1a1",
-      "name": "append_blocks1",
-      "executeOnce": false,
-      "credentials": {
-        "notionApi": {
-          "id": "00qTxlkvaMzbvtyd",
-          "name": "Notion account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "resource": "databasePage",
-        "databaseId": {
-          "__rl": true,
-          "value": "20e5f296-e25b-80e4-8bc8-f57cabd4bba7",
-          "mode": "list",
-          "cachedResultName": "Job Tracker",
-          "cachedResultUrl": "https://www.notion.so/20e5f296e25b80e48bc8f57cabd4bba7"
-        },
-        "title": "={{ $json.company_name }}",
-        "propertiesUi": {
-          "propertyValues": [
-            {
-              "key": "Application URL|url",
-              "urlValue": "={{ $json.application_url }}"
-            },
-            {
-              "key": "Flexibility|multi_select",
-              "multiSelectValue": "={{ $json.flexibility }}"
-            },
-            {
-              "key": "Industry|rich_text",
-              "textContent": "={{ $json.industry }}"
-            },
-            {
-              "key": "Salary Range|rich_text",
-              "textContent": "={{ $json.salary_range }}"
-            },
-            {
-              "key": "Status|select",
-              "selectValue": "Applied"
-            },
-            {
-              "key": "Location|rich_text",
-              "textContent": "={{ $json.location }}"
-            },
-            {
-              "key": "Job Title|rich_text",
-              "textContent": "={{ $json.job_title }}"
-            }
-          ]
-        },
-        "blockUi": {
-          "blockValues": [
-            {
-              "textContent": "={{ $json.description.substring(0,1998) }}"
-            },
-            {
-              "textContent": "=created at {{ $json.created_at }}"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.notion",
-      "typeVersion": 2.2,
-      "position": [
-        1980,
-        4140
-      ],
-      "id": "94912d45-95e5-4457-96b6-6c2e3dee595e",
-      "name": "create_new_job_listing1",
-      "executeOnce": true,
-      "credentials": {
-        "notionApi": {
-          "id": "00qTxlkvaMzbvtyd",
-          "name": "Notion account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "resource": "databasePage",
-        "databaseId": {
-          "__rl": true,
-          "value": "20f5f296-e25b-80d1-a74c-eaafbb12795f",
-          "mode": "list",
-          "cachedResultName": "Cover Letter & Resume",
-          "cachedResultUrl": "https://www.notion.so/20f5f296e25b80d1a74ceaafbb12795f"
-        },
-        "title": "=HaowenGuan_ {{ $now.format('yyyy-MM-dd HH:MM') }}",
-        "propertiesUi": {
-          "propertyValues": [
-            {
-              "key": "Company Name|rich_text",
-              "textContent": "={{ $('create_new_job_listing1').item.json.name }}"
-            },
-            {
-              "key": "Job Title|rich_text",
-              "textContent": "={{ $('create_new_job_listing1').item.json.property_job_title }}"
-            },
-            {
-              "key": "ID|title",
-              "title": "={{ $('create_new_job_listing1').item.json.id }}"
-            },
-            {
-              "key": "Application Date|date",
-              "date": "={{ $now.format('yyyy-MM-dd HH:MM') }}"
-            },
-            {
-              "key": "database_id|rich_text",
-              "textContent": "={{ $('Input2').item.json.jobId }}"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.notion",
-      "typeVersion": 2.2,
-      "position": [
-        5020,
-        4340
-      ],
-      "id": "dcd347c5-7c5b-4c70-98ce-0ec734441810",
-      "name": "create_new_cover_letter1",
-      "executeOnce": true,
-      "credentials": {
-        "notionApi": {
-          "id": "00qTxlkvaMzbvtyd",
-          "name": "Notion account"
-        }
-      }
     },
     {
       "parameters": {
@@ -929,10 +754,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        2200,
-        4140
+        2120,
+        2400
       ],
-      "id": "57c7a0bb-044f-4a44-9502-f816517d4c83",
+      "id": "7a246372-e1f1-444b-80e5-0f7cd421ae96",
       "name": "set_company_name2"
     },
     {
@@ -952,10 +777,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        3920,
-        4340
+        4280,
+        2600
       ],
-      "id": "31d25932-9b32-4978-9173-44dbcc6331cb",
+      "id": "8aebbd2c-d3cc-4f53-adc7-c94faf6d157f",
       "name": "set_cover_letter1"
     },
     {
@@ -988,10 +813,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1320,
-        4140
+        1460,
+        2400
       ],
-      "id": "c56c93f3-6c18-451d-9428-6a6334da0cd5",
+      "id": "ae757420-f2d0-4107-8efb-19eebdba3e58",
       "name": "Input2"
     },
     {
@@ -1003,10 +828,10 @@
       "type": "n8n-nodes-base.readWriteFile",
       "typeVersion": 1,
       "position": [
-        5240,
-        4000
+        5600,
+        2260
       ],
-      "id": "171398c4-813f-43cf-9192-e9f42b9e4c16",
+      "id": "1e9528fb-b51c-4e50-890e-76451f862d7c",
       "name": "Read/Write Files from Disk7"
     },
     {
@@ -1016,10 +841,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1100,
-        4140
+        1240,
+        2400
       ],
-      "id": "3df13f42-bfb5-42cf-a6cf-200a0336259b",
+      "id": "dc34c174-f6b3-4ff4-999c-6ee4b5bdc272",
       "name": "get_job_id1"
     },
     {
@@ -1037,14 +862,14 @@
       "type": "n8n-nodes-base.googleDrive",
       "typeVersion": 3,
       "position": [
-        2420,
-        4140
+        2780,
+        2400
       ],
-      "id": "6301d02a-c631-4b65-b503-a9a4df7b30d2",
+      "id": "8e9500a3-af5a-46d7-b179-95665a1142b5",
       "name": "Download Master CV1",
       "credentials": {
         "googleDriveOAuth2Api": {
-          "id": "cvvDSIH6tNL6oISu",
+          "id": "CALK5gKuDX6azjm1",
           "name": "Google Drive account"
         }
       }
@@ -1053,15 +878,17 @@
       "parameters": {
         "operation": "toText",
         "sourceProperty": "cleaned_content",
-        "options": {}
+        "options": {
+          "fileName": "={{ $json.tex_filename }}"
+        }
       },
       "type": "n8n-nodes-base.convertToFile",
       "typeVersion": 1.1,
       "position": [
-        5020,
-        4000
+        5380,
+        2260
       ],
-      "id": "4016f5c5-9112-4600-8111-4b492487d123",
+      "id": "c04ac272-e488-4bd3-ab40-2af4b464a312",
       "name": "Convert to File4"
     },
     {
@@ -1069,10 +896,10 @@
       "type": "n8n-nodes-base.noOp",
       "typeVersion": 1,
       "position": [
-        1300,
-        2840
+        1440,
+        1100
       ],
-      "id": "e5e9ba6f-a45c-4915-a455-eca3a9fe02f8",
+      "id": "faac6a73-6d65-442c-b088-fa4f14121273",
       "name": "No Operation, do nothing"
     },
     {
@@ -1272,14 +1099,14 @@
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.6,
       "position": [
-        4160,
-        2815
+        4300,
+        1080
       ],
-      "id": "816f1adc-0150-4215-9c0d-50651dc38def",
+      "id": "648ba9e1-10f5-4f38-99cb-801fcdf7a551",
       "name": "Insert new job postings",
       "credentials": {
         "postgres": {
-          "id": "j5OLrN19Z4DpykWJ",
+          "id": "KBXZvBBfjIrNeuKP",
           "name": "Postgres account"
         }
       }
@@ -1295,14 +1122,14 @@
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.6,
       "position": [
-        4160,
-        2615
+        4300,
+        880
       ],
-      "id": "d6e817d0-3688-42d1-900d-32840139f6b0",
+      "id": "02908857-e56c-48f2-b905-4a893b312f9f",
       "name": "Update existing job postings",
       "credentials": {
         "postgres": {
-          "id": "j5OLrN19Z4DpykWJ",
+          "id": "KBXZvBBfjIrNeuKP",
           "name": "Postgres account"
         }
       }
@@ -1315,10 +1142,10 @@
       "type": "n8n-nodes-base.aggregate",
       "typeVersion": 1,
       "position": [
-        4380,
-        2815
+        4520,
+        1080
       ],
-      "id": "95193862-838c-47dd-9513-63c9e716913e",
+      "id": "f1ab0451-6cdd-4d09-984e-f42bcb29f849",
       "name": "Aggregate1"
     },
     {
@@ -1520,14 +1347,14 @@
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.6,
       "position": [
-        6452,
-        2715
+        6600,
+        980
       ],
-      "id": "deae4306-7e7e-4ffb-803b-7bb355d25306",
+      "id": "0c484506-25cf-4669-8a15-6554a8a3ac6f",
       "name": "Postgres3",
       "credentials": {
         "postgres": {
-          "id": "j5OLrN19Z4DpykWJ",
+          "id": "KBXZvBBfjIrNeuKP",
           "name": "Postgres account"
         }
       }
@@ -1540,10 +1367,10 @@
       "type": "n8n-nodes-base.aggregate",
       "typeVersion": 1,
       "position": [
-        3280,
-        2715
+        3420,
+        980
       ],
-      "id": "09673869-5a93-4209-ba6a-0eb9e2d0fe24",
+      "id": "8f26bb01-d5d2-499f-a745-a3f175b5807e",
       "name": "Scraped_Aggregated"
     },
     {
@@ -1573,14 +1400,14 @@
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.6,
       "position": [
-        1760,
-        4140
+        1900,
+        2400
       ],
-      "id": "e84650d9-110d-462d-bb03-ac80b5bc471d",
+      "id": "fde5ee81-accf-4791-876f-bf5e5e3af709",
       "name": "Get Job Posting",
       "credentials": {
         "postgres": {
-          "id": "j5OLrN19Z4DpykWJ",
+          "id": "KBXZvBBfjIrNeuKP",
           "name": "Postgres account"
         }
       }
@@ -1603,16 +1430,16 @@
       "type": "n8n-nodes-base.gmail",
       "typeVersion": 2.1,
       "position": [
-        6120,
-        4140
+        6480,
+        2400
       ],
-      "id": "0c2570d1-c526-4228-884c-cd033a2f4783",
+      "id": "6973f990-eb72-4dfb-b0ef-f088b7c594ac",
       "name": "Gmail",
       "webhookId": "dd01c4f5-206b-4065-944c-f63e4b05002c",
       "executeOnce": true,
       "credentials": {
         "gmailOAuth2": {
-          "id": "1Ype0s2KCYxt8cHF",
+          "id": "gegIMpsrZsuIjQU7",
           "name": "Gmail account"
         }
       }
@@ -1629,10 +1456,10 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 1.9,
       "position": [
-        4440,
-        3900
+        4800,
+        2160
       ],
-      "id": "dc7d1e74-8a42-45dc-8405-0636c0464b3a",
+      "id": "e29d327c-ab37-4322-8fda-8cd04c773b4b",
       "name": "AI Resume Consultant"
     },
     {
@@ -1642,10 +1469,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        4800,
-        4000
+        5160,
+        2260
       ],
-      "id": "c3087514-85bb-499e-abf3-1b7349b7aa57",
+      "id": "e9c9fac2-1e53-42cf-af8f-414af9fb8d8f",
       "name": "Prepare Latex"
     },
     {
@@ -1665,11 +1492,11 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1740,
-        2615
+        1880,
+        880
       ],
       "name": "Extract Run ID3",
-      "id": "151eebb4-f5a7-43e2-b570-00c8a71b3481"
+      "id": "0a027523-9d52-43ad-819b-aac8adace8bd"
     },
     {
       "parameters": {
@@ -1679,11 +1506,11 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        2180,
-        2615
+        2320,
+        880
       ],
       "name": "Check Run Status3",
-      "id": "27de1e5b-1295-4f03-87b0-10354d4685a9"
+      "id": "a75e241e-30f1-46aa-ac8a-c2094d8c2fa5"
     },
     {
       "parameters": {
@@ -1700,11 +1527,11 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 1,
       "position": [
-        2400,
-        2540
+        2540,
+        800
       ],
       "name": "Check if Succeeded3",
-      "id": "818e5596-3901-4574-86ab-dae1892f4a06"
+      "id": "dabce1b6-bff9-4aa4-a5ad-b7c4caa16b0f"
     },
     {
       "parameters": {
@@ -1714,11 +1541,11 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        2620,
-        2490
+        2760,
+        760
       ],
       "name": "Get Dataset Items3",
-      "id": "b76af6b9-bb32-4996-ad0c-b754433ac202"
+      "id": "f2498b21-8e29-44fb-8e6b-a01996167330"
     },
     {
       "parameters": {
@@ -1727,11 +1554,11 @@
       "type": "n8n-nodes-base.wait",
       "typeVersion": 1.1,
       "position": [
-        2620,
-        2715
+        2760,
+        980
       ],
       "name": "Wait and Retry3",
-      "id": "3ebae095-dfcc-422d-b41f-df485a33caa9",
+      "id": "cb41a522-4432-4830-9582-e2093e6546a4",
       "webhookId": "e4e481f0-c4e7-44c8-b8f1-6348cdb8e30c"
     },
     {
@@ -1756,11 +1583,11 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        1520,
-        2615
+        1660,
+        880
       ],
       "name": "start_apify_run_linkedin1",
-      "id": "2988c8ba-8706-4797-9c12-3bda9d7ecb38"
+      "id": "acbf266b-7bae-44e4-8d37-f0ecff0a2696"
     },
     {
       "parameters": {
@@ -1771,14 +1598,14 @@
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.6,
       "position": [
-        420,
-        2840
+        560,
+        1100
       ],
-      "id": "8e661354-1c23-4122-a1fd-9033a371e228",
+      "id": "88313add-bfe7-46ac-8830-fbd18625c0f4",
       "name": "Init DB",
       "credentials": {
         "postgres": {
-          "id": "j5OLrN19Z4DpykWJ",
+          "id": "KBXZvBBfjIrNeuKP",
           "name": "Postgres account"
         }
       }
@@ -1792,30 +1619,30 @@
         "jsonBody": "={{ { \"filename\": $json.fileName.split('/').pop() } }}",
         "options": {}
       },
-      "id": "04870192-4474-44c9-856f-3e77a03e6839",
+      "id": "90a5ce0f-39d9-4e12-a513-114c6dd9b5df",
       "name": "HTTP Request: Compile PDF",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        5460,
-        4000
+        5820,
+        2260
       ],
       "alwaysOutputData": true,
       "notesInFlow": false,
-      "onError": "continueErrorOutput"
+      "onError": "continueRegularOutput"
     },
     {
       "parameters": {
         "filePath": "={{ $json.pdf_path }}",
         "dataPropertyName": "pdfdata"
       },
-      "id": "1fa8a5f7-26d0-432c-a472-82886b89a083",
+      "id": "6a4b8ee0-2fd2-4336-b779-8ef6275718b1",
       "name": "Read Generated PDF",
       "type": "n8n-nodes-base.readBinaryFile",
       "typeVersion": 1,
       "position": [
-        5680,
-        3900
+        6040,
+        2160
       ]
     },
     {
@@ -1825,10 +1652,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        2840,
-        2490
+        2980,
+        760
       ],
-      "id": "4a4c9c9c-5a35-430e-85c2-1d4c911b8d24",
+      "id": "b89c8ab5-eeb3-41a3-8bf0-e24bc0de0179",
       "name": "normalize_linkedin_job_data"
     },
     {
@@ -1838,10 +1665,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        2840,
-        2940
+        2980,
+        1200
       ],
-      "id": "4f81d88b-9c74-4af6-a984-53e2cdd7d862",
+      "id": "6e0c741f-722b-4f4f-92d6-cbdf806ab7d4",
       "name": "normalize_indeed_job_data"
     },
     {
@@ -1851,10 +1678,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        2840,
-        3390
+        2980,
+        1660
       ],
-      "id": "88655546-2531-4f2c-ad47-82ecddf40b2e",
+      "id": "b1505350-a194-49e7-918c-4b79a27e2f76",
       "name": "normalize_indeed_job_data1"
     },
     {
@@ -1864,11 +1691,11 @@
       "type": "n8n-nodes-base.wait",
       "typeVersion": 1.1,
       "position": [
-        1960,
-        2165
+        2100,
+        440
       ],
       "name": "Wait First Timeout",
-      "id": "981dcbe9-3b29-4f5c-a0f9-692c3db4ede6",
+      "id": "078fe887-507b-43ea-8d6f-47eea07f8264",
       "webhookId": "c5cdc3a8-b6a7-420d-8bd1-5c9d80f023e0"
     },
     {
@@ -1878,11 +1705,11 @@
       "type": "n8n-nodes-base.wait",
       "typeVersion": 1.1,
       "position": [
-        1960,
-        2615
+        2100,
+        880
       ],
       "name": "Wait First Timeout1",
-      "id": "9f4c4239-20cb-44c9-bb96-7733035a4f8b",
+      "id": "ed5aa1f0-9982-4656-b5ac-7e2f587af59b",
       "webhookId": "c5cdc3a8-b6a7-420d-8bd1-5c9d80f023e0"
     },
     {
@@ -1892,11 +1719,11 @@
       "type": "n8n-nodes-base.wait",
       "typeVersion": 1.1,
       "position": [
-        1960,
-        3065
+        2100,
+        1340
       ],
       "name": "Wait First Timeout2",
-      "id": "b713e7bd-7054-4cf8-8987-2b374b2575e1",
+      "id": "f519cba5-d460-40a0-ae1f-e9937343824c",
       "webhookId": "2fa06f4d-0236-4a1c-8621-89c16138cd6c"
     },
     {
@@ -1906,11 +1733,11 @@
       "type": "n8n-nodes-base.wait",
       "typeVersion": 1.1,
       "position": [
-        1960,
-        3515
+        2100,
+        1780
       ],
       "name": "Wait First Timeout3",
-      "id": "e073e690-95ee-4f4c-bd6a-f09fc7e80cb5",
+      "id": "9317fc23-bff1-432b-bd47-97c952109b0b",
       "webhookId": "7edffa70-6b6d-43ae-af87-eb45dbea0da6"
     },
     {
@@ -1924,10 +1751,10 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 1.9,
       "position": [
-        3460,
-        4340
+        3820,
+        2600
       ],
-      "id": "39f32a94-08cd-4f27-9a89-5d9807f28b0a",
+      "id": "84a2193d-5a42-4782-be2b-329d6bb4cd9d",
       "name": "Cover Letter Agent"
     },
     {
@@ -1941,10 +1768,10 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 2,
       "position": [
-        2860,
-        4140
+        3220,
+        2400
       ],
-      "id": "6bad2386-7819-467a-a2c6-b55c8b835686",
+      "id": "c089e535-54ef-4077-b4e1-c331416e4837",
       "name": "Orchestrator Agent"
     },
     {
@@ -1955,10 +1782,10 @@
       "type": "n8n-nodes-base.extractFromFile",
       "typeVersion": 1,
       "position": [
-        2640,
-        4140
+        3000,
+        2400
       ],
-      "id": "b79bff5c-c6ca-42e1-ae08-ca1b1f6d5e44",
+      "id": "b5c1a8be-8fb6-4474-9d4a-4ddb8e4f6f31",
       "name": "Extract Text from CV"
     },
     {
@@ -1968,10 +1795,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        3240,
-        4140
+        3600,
+        2400
       ],
-      "id": "3325c3c0-cdb8-4347-9ede-7de3f54a41b4",
+      "id": "f64b747a-be6e-4dd0-aa17-b8df2bd7eab0",
       "name": "Parse Strategy JSON"
     },
     {
@@ -1982,14 +1809,14 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1,
       "position": [
-        2860,
-        4360
+        3220,
+        2620
       ],
-      "id": "9e0f40bc-0548-49be-9906-d2bdb678f496",
+      "id": "a63b944f-2cf7-4534-8672-b7f32f7ca7d8",
       "name": "Google Gemini Chat Model1",
       "credentials": {
         "googlePalmApi": {
-          "id": "aw7Pold22PTIhMYc",
+          "id": "iK8kH8n2CiqT3aRf",
           "name": "Google Gemini(PaLM) Api account"
         }
       }
@@ -2002,10 +1829,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        3720,
-        2715
+        3860,
+        980
       ],
-      "id": "2980925c-3b4c-498d-be97-43b8f1c750d0",
+      "id": "871b257b-9d9a-476f-a076-96967dacf4f5",
       "name": "De-Duplicate"
     },
     {
@@ -2016,14 +1843,14 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1,
       "position": [
-        5284,
-        3035
+        5360,
+        1300
       ],
-      "id": "250e12a9-a71e-4f29-9b8e-b5e25e9f9308",
+      "id": "a04739ef-82a8-4669-9d1e-fb60f48acc33",
       "name": "Google Gemini Chat Model2",
       "credentials": {
         "googlePalmApi": {
-          "id": "aw7Pold22PTIhMYc",
+          "id": "iK8kH8n2CiqT3aRf",
           "name": "Google Gemini(PaLM) Api account"
         }
       }
@@ -2036,10 +1863,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        5680,
-        4340
+        6040,
+        2600
       ],
-      "id": "f1173d78-15e8-4b53-aa58-2d054a0e7f7c",
+      "id": "4d4c6474-cb13-4bd6-8145-a3a5e8331ba9",
       "name": "Build Email"
     },
     {
@@ -2065,10 +1892,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        5680,
-        4100
+        6020,
+        2420
       ],
-      "id": "219cdd47-f7b3-4ced-b0d0-c2cf203e96bc",
+      "id": "e365ece1-0c7a-45a1-b33b-05c9999ab0fa",
       "name": "Set Resume Result"
     },
     {
@@ -2076,10 +1903,10 @@
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3.2,
       "position": [
-        5900,
-        4140
+        6260,
+        2400
       ],
-      "id": "70316ca1-caa2-4b87-b4e5-d47adc0b7b65",
+      "id": "a210898a-a75b-4bbf-92e6-68e6b08c9a68",
       "name": "Merge1"
     },
     {
@@ -2093,31 +1920,11 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 2,
       "position": [
-        3840,
-        3900
+        4200,
+        2160
       ],
-      "id": "d3989a8c-0dc3-47f9-9e76-63d868432334",
+      "id": "2b347908-71bb-4637-b1c8-41e20a3823b1",
       "name": "AI Agent"
-    },
-    {
-      "parameters": {
-        "model": "deepseek-reasoner",
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.lmChatDeepSeek",
-      "typeVersion": 1,
-      "position": [
-        3920,
-        4120
-      ],
-      "id": "0ab88916-2eff-4c0a-8eb1-5781addedd34",
-      "name": "DeepSeek Chat Model",
-      "credentials": {
-        "deepSeekApi": {
-          "id": "ulkWYFwSYDP4zvCM",
-          "name": "DeepSeek account"
-        }
-      }
     },
     {
       "parameters": {
@@ -2126,10 +1933,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        4220,
-        4000
+        4580,
+        2260
       ],
-      "id": "60d825e8-b0f8-4eeb-857e-5b88c3fa3c3c",
+      "id": "4f83879f-fd99-4a44-a0a1-8774c2ae328d",
       "name": "Parse Resume JSON"
     },
     {
@@ -2139,10 +1946,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        2840,
-        2040
+        2980,
+        300
       ],
-      "id": "0596b067-d45f-4a39-97e1-b6f4eabc4789",
+      "id": "a41a4074-3fef-4fd1-9bf5-820235eb5092",
       "name": "normalize_linkedin_job_data1"
     },
     {
@@ -2153,11 +1960,11 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        2620,
-        2040
+        2760,
+        300
       ],
       "name": "Get Dataset Items",
-      "id": "3bebaf85-8d12-4ce3-a958-13ab9b4e5c07"
+      "id": "df634589-1368-40f7-93c6-f53d3c56e618"
     },
     {
       "parameters": {
@@ -2169,10 +1976,10 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        -140,
-        1740
+        0,
+        0
       ],
-      "id": "6c50498e-8b14-4e1a-93e4-77b55310ebd8",
+      "id": "b03e349f-473f-4d28-b8c2-f4740f66bcaf",
       "name": "Project Overview"
     },
     {
@@ -2185,10 +1992,10 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        520,
-        1760
+        660,
+        20
       ],
-      "id": "819d7d76-32a4-4723-be89-a39f9b2435b8",
+      "id": "3cabf0a2-7028-4feb-b7b9-c7478341ea17",
       "name": "Setup Guide",
       "width": 600
     },
@@ -2201,10 +2008,10 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        4766,
-        2335
+        4920,
+        600
       ],
-      "id": "1cc16cd2-5e9b-4a53-b2e5-d9c0ceb42cff",
+      "id": "c7cf6e2e-85b1-4234-8f80-edd2a5782c9a",
       "name": "Note"
     },
     {
@@ -2215,21 +2022,21 @@
           "value": "1RWvsyre4BnUlMiIVA2Br-pMlOdOkVYGr",
           "mode": "list",
           "cachedResultName": "Master CV July25.pdf",
-          "cachedResultUrl": "https://drive.google.com/file/d/1RWvsyre4BnUlMiIVA2Br-pMlOdOkVYGr/view?usp=drivesdk"
+          "cachedResultUrl": ""
         },
         "options": {}
       },
       "type": "n8n-nodes-base.googleDrive",
       "typeVersion": 3,
       "position": [
-        660,
-        2840
+        800,
+        1100
       ],
-      "id": "2d92c3b4-180d-43fc-a142-9166545c0418",
+      "id": "05407ad6-1c9d-410a-bdf0-38c0cc9c3496",
       "name": "Download Master CV",
       "credentials": {
         "googleDriveOAuth2Api": {
-          "id": "cvvDSIH6tNL6oISu",
+          "id": "CALK5gKuDX6azjm1",
           "name": "Google Drive account"
         }
       }
@@ -2243,11 +2050,11 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        440,
-        3600
+        580,
+        1860
       ],
       "typeVersion": 1,
-      "id": "e86806ae-5bbe-4a65-ade5-30fee4d6de9d",
+      "id": "8c37554a-36fd-484c-9c6e-dcdcd8e2e965",
       "name": "Sticky Note"
     },
     {
@@ -2258,11 +2065,11 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        -100,
-        2520
+        40,
+        780
       ],
       "typeVersion": 1,
-      "id": "49d9d309-a109-4d04-82a5-88dd8cfe459a",
+      "id": "0aa5904c-9ba8-4a4d-8c67-0c1e676d4f5d",
       "name": "Sticky Note1"
     },
     {
@@ -2273,11 +2080,11 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        1440,
-        1800
+        1580,
+        60
       ],
       "typeVersion": 1,
-      "id": "e238a8a6-6de8-4007-bbb0-c3c511718bc2",
+      "id": "ddd600cd-8a40-40d1-b534-2d601f7b8712",
       "name": "Sticky Note2"
     },
     {
@@ -2288,11 +2095,11 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        3030,
-        1936
+        3180,
+        200
       ],
       "typeVersion": 1,
-      "id": "3ef9414a-a176-4ee5-916d-32c505df0865",
+      "id": "9ef14b2d-1fc0-40c0-aa0e-172b5399e2f9",
       "name": "Sticky Note3"
     },
     {
@@ -2303,11 +2110,11 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        3890,
-        2015
+        4040,
+        280
       ],
       "typeVersion": 1,
-      "id": "310a35b1-887f-4886-a8fb-1782683f54d4",
+      "id": "2f10db97-9d6a-4806-922d-96c91ad126a8",
       "name": "Sticky Note4"
     },
     {
@@ -2321,10 +2128,10 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 2,
       "position": [
-        5196,
-        2815
+        5340,
+        1080
       ],
-      "id": "f8affcb2-0a9f-43df-89d4-b0ca663c7839",
+      "id": "06e7d9ee-bbf5-436d-961f-a994829bb667",
       "name": "Parser"
     },
     {
@@ -2334,10 +2141,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        5572,
-        2815
+        5720,
+        1080
       ],
-      "id": "a9fced38-4ece-458d-a384-6f0b91ebddd3",
+      "id": "4cfdc42e-89ea-493c-9d16-8f790d303ef6",
       "name": "Parse JSON"
     },
     {
@@ -2348,11 +2155,45 @@
       "type": "n8n-nodes-base.aggregate",
       "typeVersion": 1,
       "position": [
-        5792,
-        2815
+        5940,
+        1080
       ],
-      "id": "7209d157-e2da-4c5b-be19-756d0be2c5bb",
+      "id": "d0eff441-62fa-4fd4-874c-17e1444f410f",
       "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "87465f66-97a5-40b0-a75e-a68da164f6e8",
+              "name": "data",
+              "value": "={\n    \"matchedJobs\": [\n      {\n        \"database_id\": \"c4728de3c549eaf9\",\n        \"Company Name\": \"Finanztip Verbraucherinformation GmbH\",\n        \"Job Title\": \"Werkstudent*in Data Science (all genders)\",\n        \"Industry\": \"Not specified\",\n        \"Reason for Match\": \"Excellent match for a junior data science role in Munich. Directly aligns with your Data Science coursework, practical experience with Python and SQL, and native German proficiency.\",\n        \"Application URL\": \"https://t.gohiring.com/h/5b4e152b5f059415137087e72d9c3ab64b3b51551022f5530ca9a3e0d8f1c968?source=Indeed\",\n        \"Location\": \"81671 München\",\n        \"Flexibility\": \"Not specified\",\n        \"Salary Range\": \"Not specified\"\n      },\n      {\n        \"database_id\": \"55486f3995d52645\",\n        \"Company Name\": \"EFESO Management Consultants\",\n        \"Job Title\": \"Praktikant (all genders) im Bereich Künstliche Intelligenz\",\n        \"Industry\": \"Not specified\",\n        \"Reason for Match\": \"Perfectly matches your project experience in applied AI and LLMs. This internship in Munich offers hands-on experience with Python, GPT, and modern AI frameworks that you are skilled in.\",\n        \"Application URL\": \"https://t.gohiring.com/h/eaddbd0b196b5f7bbeda6928b197dbb97a2c8b94ba8a1c94fc71b4b20c8726bb?source=Indeed\",\n        \"Location\": \"80797 München\",\n        \"Flexibility\": \"Vollzeit\",\n        \"Salary Range\": \"Not specified\"\n      },\n      {\n        \"database_id\": \"c83b7b064f423054\",\n        \"Company Name\": \"Celonis\",\n        \"Job Title\": \"Associate Technology Consultant - Galaxy Program\",\n        \"Industry\": \"Not specified\",\n        \"Reason for Match\": \"This graduate program is an ideal entry point, matching your preference for a junior role in Munich. It leverages your strong background in Data Mining, Python, and SQL, and requires native German skills.\",\n        \"Application URL\": \"https://grnh.se/0304d1783us\",\n        \"Location\": \"München\",\n        \"Flexibility\": \"Vollzeit\",\n        \"Salary Range\": \"Not specified\"\n      },\n      {\n        \"database_id\": \"196d17a92a6b29b0\",\n        \"Company Name\": \"Max-Planck-Gesellschaft\",\n        \"Job Title\": \"Aushilfe mit KI/Chat GPT-Expertise in Teilzeit (6 Std./Woche) (all genders)\",\n        \"Industry\": \"Not specified\",\n        \"Reason for Match\": \"Strongly aligns with your personal projects using LLMs and prompt engineering. This role in Garching offers a great opportunity to apply your cutting-edge AI skills in a renowned research environment.\",\n        \"Application URL\": \"https://www.mpg.de/25086315/aushilfe-mit-ki-chatgpt-expertise-in-teilzeit-6std\",\n        \"Location\": \"85748 Garching bei München\",\n        \"Flexibility\": \"Not specified\",\n        \"Salary Range\": \"Not specified\"\n      },\n      {\n        \"database_id\": \"08dd74d5ca6f630f\",\n        \"Company Name\": \"Dassault Systèmes\",\n        \"Job Title\": \"Working Student (m/f/d) – AI Developer\",\n        \"Industry\": \"Not specified\",\n        \"Reason for Match\": \"This AI Developer student role is a great fit, combining your Python, AI, and software development skills. The position in Munich matches your location and preference for a hands-on technical role.\",\n        \"Application URL\": \"https://www.3ds.com/careers/jobs/working-student-m-f-d-ai-developer-544684\",\n        \"Location\": \"München\",\n        \"Flexibility\": \"Not specified\",\n        \"Salary Range\": \"Not specified\"\n      },\n      {\n        \"database_id\": \"4271013272\",\n        \"Company Name\": \"SRH University\",\n        \"Job Title\": \"Lecturer Data Science f/m/d\",\n        \"Industry\": \"Individual and Family Services\",\n        \"Reason for Match\": \"This role in Munich is a strong thematic match, seeking expertise in Data Science, Machine Learning, Python, and AI — all core strengths of your CV. It offers a unique way to apply your deep knowledge.\",\n        \"Application URL\": \"https://www.srh-karriere.de/alle-jobs/stellenangebot/lecturer-data-science-fmd-muenchen\",\n        \"Location\": \"Munich, Bavaria, Germany\",\n        \"Flexibility\": \"Full-time\",\n        \"Salary Range\": \"Not specified\"\n      },\n      {\n        \"database_id\": \"882c32539fe387c7\",\n        \"Company Name\": \"Infosys\",\n        \"Job Title\": \"MarTech Technologist - Consumer Goods, Retail and Logistics - Germany\",\n        \"Industry\": \"Not specified\",\n        \"Reason for Match\": \"This technical role in Munich leverages your advanced Python and SQL skills. While the MarTech domain is new, it aligns with your stated ability to learn new domains and apply core data skills.\",\n        \"Application URL\": \"https://apply.workable.com/j/5915B6BCE7\",\n        \"Location\": \"München\",\n        \"Flexibility\": \"Vollzeit\",\n        \"Salary Range\": \"Not specified\"\n      },\n      {\n        \"database_id\": \"4271002466\",\n        \"Company Name\": \"K-tronik GmbH\",\n        \"Job Title\": \"Java Entwickler/ Fullstack (m/w/x)\",\n        \"Industry\": \"IT Services and IT Consulting\",\n        \"Reason for Match\": \"This entry-level role near Munich fits your software development interests and experience with simulations. It utilizes your intermediate Java skills and aligns with your native German proficiency.\",\n        \"Application URL\": \"https://www.get-in-it.de/jobsuche/p290749-5dcada10/5dcada10?utm_source=linkedin&utm_medium=cpc&utm_campaign=launch-basic\",\n        \"Location\": \"Ottobrunn, Bavaria, Germany\",\n        \"Flexibility\": \"Full-time\",\n        \"Salary Range\": \"Not specified\"\n      },\n      {\n        \"database_id\": \"4271014655\",\n        \"Company Name\": \"REPA Deutschland\",\n        \"Job Title\": \"Cloud Engineer (m/f/d)\",\n        \"Industry\": \"Wholesale\",\n        \"Reason for Match\": \"While primarily a cloud role, it requires proficiency in Python scripting and is located near Munich. It offers an opportunity to leverage your software engineering skills in a cloud infrastructure environment.\",\n        \"Application URL\": \"https://de.linkedin.com/jobs/view/cloud-engineer-m-f-d-at-repa-deutschland-4271014655\",\n        \"Location\": \"Bergkirchen, Bavaria, Germany\",\n        \"Flexibility\": \"Full-time\",\n        \"Salary Range\": \"Not specified\"\n      },\n      {\n        \"database_id\": \"4268344887\",\n        \"Company Name\": \"REPA\",\n        \"Job Title\": \"Cloud Engineer (m/f/d)\",\n        \"Industry\": \"Wholesale\",\n        \"Reason for Match\": \"This position near Munich, while focused on cloud infrastructure, lists Python scripting as a required skill, which aligns with your advanced programming abilities and provides a path into a technical role.\",\n        \"Application URL\": \"https://de.linkedin.com/jobs/view/cloud-engineer-m-f-d-at-repa-4268344887\",\n        \"Location\": \"Bergkirchen, Bavaria, Germany\",\n        \"Flexibility\": \"Full-time\",\n        \"Salary Range\": \"Not specified\"\n      },\n      {\n        \"database_id\": \"4265426137\",\n        \"Company Name\": \"WAY Group\",\n        \"Job Title\": \"Development Android Application Platform (m/w/d) BMW Group Munich\",\n        \"Industry\": \"Professional Services\",\n        \"Reason for Match\": \"This role in Munich for BMW requires Python and Java, both of which are on your CV. Although it's an Android platform role, the use of your core programming languages makes it a potential fit.\",\n        \"Application URL\": \"https://join.com/companies/waygroup/14511978-development-android-application-platform-m-w-d-bmw-group-munich?pid=e65242534431eadcb0c9\",\n        \"Location\": \"Munich, Bavaria, Germany\",\n        \"Flexibility\": \"Full-time\",\n        \"Salary Range\": \"€72,000.00/yr - €77,000.00/yr\"\n      }\n    ],\n    \"updateOperations\": [\n      {\n        \"json\": {\n          \"id\": \"c4728de3c549eaf9\",\n          \"status\": \"processed\",\n          \"processed_at\": \"2025-07-21T23:50:44.615000+00:00\",\n          \"reason_for_match\": \"Excellent match for a junior data science role in Munich. Directly aligns with your Data Science coursework, practical experience with Python and SQL, and native German proficiency.\"\n        }\n      },\n      {\n        \"json\": {\n          \"id\": \"55486f3995d52645\",\n          \"status\": \"processed\",\n          \"processed_at\": \"2025-07-21T23:50:44.615000+00:00\",\n          \"reason_for_match\": \"Perfectly matches your project experience in applied AI and LLMs. This internship in Munich offers hands-on experience with Python, GPT, and modern AI frameworks that you are skilled in.\"\n        }\n      },\n      {\n        \"json\": {\n          \"id\": \"c83b7b064f423054\",\n          \"status\": \"processed\",\n          \"processed_at\": \"2025-07-21T23:50:44.615000+00:00\",\n          \"reason_for_match\": \"This graduate program is an ideal entry point, matching your preference for a junior role in Munich. It leverages your strong background in Data Mining, Python, and SQL, and requires native German skills.\"\n        }\n      },\n      {\n        \"json\": {\n          \"id\": \"196d17a92a6b29b0\",\n          \"status\": \"processed\",\n          \"processed_at\": \"2025-07-21T23:50:44.615000+00:00\",\n          \"reason_for_match\": \"Strongly aligns with your personal projects using LLMs and prompt engineering. This role in Garching offers a great opportunity to apply your cutting-edge AI skills in a renowned research environment.\"\n        }\n      },\n      {\n        \"json\": {\n          \"id\": \"08dd74d5ca6f630f\",\n          \"status\": \"processed\",\n          \"processed_at\": \"2025-07-21T23:50:44.615000+00:00\",\n          \"reason_for_match\": \"This AI Developer student role is a great fit, combining your Python, AI, and software development skills. The position in Munich matches your location and preference for a hands-on technical role.\"\n        }\n      },\n      {\n        \"json\": {\n          \"id\": \"4271013272\",\n          \"status\": \"processed\",\n          \"processed_at\": \"2025-07-21T23:50:44.615000+00:00\",\n          \"reason_for_match\": \"This role in Munich is a strong thematic match, seeking expertise in Data Science, Machine Learning, Python, and AI — all core strengths of your CV. It offers a unique way to apply your deep knowledge.\"\n        }\n      },\n      {\n        \"json\": {\n          \"id\": \"882c32539fe387c7\",\n          \"status\": \"processed\",\n          \"processed_at\": \"2025-07-21T23:50:44.615000+00:00\",\n          \"reason_for_match\": \"This technical role in Munich leverages your advanced Python and SQL skills. While the MarTech domain is new, it aligns with your stated ability to learn new domains and apply core data skills.\"\n        }\n      },\n      {\n        \"json\": {\n          \"id\": \"4271002466\",\n          \"status\": \"processed\",\n          \"processed_at\": \"2025-07-21T23:50:44.615000+00:00\",\n          \"reason_for_match\": \"This entry-level role near Munich fits your software development interests and experience with simulations. It utilizes your intermediate Java skills and aligns with your native German proficiency.\"\n        }\n      },\n      {\n        \"json\": {\n          \"id\": \"4271014655\",\n          \"status\": \"processed\",\n          \"processed_at\": \"2025-07-21T23:50:44.615000+00:00\",\n          \"reason_for_match\": \"While primarily a cloud role, it requires proficiency in Python scripting and is located near Munich. It offers an opportunity to leverage your software engineering skills in a cloud infrastructure environment.\"\n        }\n      },\n      {\n        \"json\": {\n          \"id\": \"4268344887\",\n          \"status\": \"processed\",\n          \"processed_at\": \"2025-07-21T23:50:44.615000+00:00\",\n          \"reason_for_match\": \"This position near Munich, while focused on cloud infrastructure, lists Python scripting as a required skill, which aligns with your advanced programming abilities and provides a path into a technical role.\"\n        }\n      },\n      {\n        \"json\": {\n          \"id\": \"4265426137\",\n          \"status\": \"processed\",\n          \"processed_at\": \"2025-07-21T23:50:44.615000+00:00\",\n          \"reason_for_match\": \"This role in Munich for BMW requires Python and Java, both of which are on your CV. Although it's an Android platform role, the use of your core programming languages makes it a potential fit.\"\n        }\n      }\n    ]\n  }",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        4680,
+        2860
+      ],
+      "id": "c4b08966-1b82-4cf9-add8-94cbe3bba591",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        4460,
+        2860
+      ],
+      "id": "632d7472-d3c8-4f71-afad-e783dd4a83e2",
+      "name": "When clicking ‘Execute workflow’"
     },
     {
       "parameters": {
@@ -2363,11 +2204,11 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        620,
-        2760
+        760,
+        1020
       ],
       "typeVersion": 1,
-      "id": "6bb25606-e0e3-4b2d-a887-6304cbd5c8fd",
+      "id": "06b18e25-244b-428c-9bba-a5daba4f63c5",
       "name": "Sticky Note5"
     },
     {
@@ -2378,14 +2219,14 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1,
       "position": [
-        3780,
-        4120
+        4140,
+        2380
       ],
-      "id": "b62c3ade-acac-44b0-8aaa-65b15192fa7e",
+      "id": "8e5d3d7f-3e68-4e95-b1a0-9bac39a98ea4",
       "name": "Google Gemini Chat Model3",
       "credentials": {
         "googlePalmApi": {
-          "id": "aw7Pold22PTIhMYc",
+          "id": "iK8kH8n2CiqT3aRf",
           "name": "Google Gemini(PaLM) Api account"
         }
       }
@@ -2398,14 +2239,14 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1,
       "position": [
-        4400,
-        4140
+        4760,
+        2400
       ],
-      "id": "4fc69a2e-de23-4fc0-8e2c-c773c35c8eaa",
+      "id": "0ca3887d-b457-40c1-ab8c-bdce936b0cb1",
       "name": "Google Gemini Chat Model4",
       "credentials": {
         "googlePalmApi": {
-          "id": "aw7Pold22PTIhMYc",
+          "id": "iK8kH8n2CiqT3aRf",
           "name": "Google Gemini(PaLM) Api account"
         }
       }
@@ -2418,45 +2259,19 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1,
       "position": [
-        3420,
-        4560
+        3780,
+        2820
       ],
-      "id": "6cd338c5-74f7-4948-981b-f8bcf86e09a9",
+      "id": "0fcb85a2-8416-4826-ac42-67b751fe93cf",
       "name": "Google Gemini Chat Model5",
       "credentials": {
         "googlePalmApi": {
-          "id": "aw7Pold22PTIhMYc",
+          "id": "iK8kH8n2CiqT3aRf",
           "name": "Google Gemini(PaLM) Api account"
         }
       }
     }
   ],
-  "pinData": {
-    "Cover Letter Agent": [
-      {
-        "json": {
-          "output": "Here's a targeted cover letter following your strategy and guidelines (327 words):\n\n---\n\n**Subject: Applying for Agentic AI Engineer at Ippen Digital**  \n\nI've built agentic AI workflows with RAG and vector databases, so your Agentic AI Engineer role immediately caught my attention. It's rare to find positions so perfectly aligned with my passion for creating the kind of innovative, user-centric KI-Agenten Ippen Digital aims to deploy.  \n\nYour need for hands-on builders of LLM-powered systems matches my recent work. When developing my RAG/RAGGraph agentic automation project, I focused on solving the same core challenges you're tackling: creating intuitive workflows that handle complex tasks while maintaining user trust. This wasn't just theoretical – I optimized retrieval pipelines and debugged agentic loops in practical implementations.  \n\nAt ARRK Engineering, I architected and deployed a Python-based ML pipeline from data ingestion to deployment. Since you're scaling solutions, you'll appreciate how I designed modular components that handled 10x throughput spikes without refactoring. It taught me to build systems that stay robust when real-world data gets messy.  \n\nAPI development is crucial for integrating your agents, and my SAP experience directly applies. I designed and documented production-ready APIs for HANA's ML library, focusing specifically on making AI components play nicely together. The interfaces I built are still used by third-party developers today because they prioritize clarity over cleverness.  \n\nWhat sets me apart is how I bridge system design and practical implementation. While some specialize in theory or coding, I've consistently delivered working solutions where both intersect – like optimizing RAG latency while maintaining accuracy thresholds. I geek out on making complex systems feel simple for end-users.  \n\nI'd love to show you how my approach can accelerate your agent development. When's good for a chat?  \n\nBest regards,  \n[Your Name]  \n\n---\n\n### Key features of this letter:\n1. **Company-focused opening**  \nConnects your RAG experience directly to Ippen's mission in the first sentence, avoiding generic enthusiasm.\n\n2. **Evidence-driven paragraphs**  \nEach section:  \n   - States Ippen's need  \n   - Highlights your relevant project  \n   - Shows concrete skills (e.g., \"optimized retrieval pipelines,\" \"handled 10x throughput spikes\")  \n\n3. **Unique value section**  \nEmphasizes your \"bridge\" skill between theory and implementation – a critical need for agentic systems.\n\n4. **Startup-appropriate tone**  \nUses contractions (\"I've,\" \"you're\"), active verbs (\"geek out,\" \"debugged\"), and avoids corporate jargon.\n\n5. **Conciseness**  \nAll paragraphs under 4 sentences, with specific examples instead of achievement lists.\n\n6. **Problem-solving focus**  \nHighlights how you solve pain points (integration challenges, scalability, latency) mentioned in typical agentic AI roles.\n\nWord count: 327 | Sentences per paragraph: 3-4 | Passive voice: 0 instances"
-        }
-      }
-    ],
-    "Schedule Trigger": [
-      {
-        "json": {
-          "timestamp": "2025-07-21T08:00:25.746+02:00",
-          "Readable date": "July 21st 2025, 8:00:25 am",
-          "Readable time": "8:00:25 am",
-          "Day of week": "Monday",
-          "Year": "2025",
-          "Month": "July",
-          "Day of month": "21",
-          "Hour": "08",
-          "Minute": "00",
-          "Second": "25",
-          "Timezone": "Europe/Berlin (UTC+02:00)"
-        }
-      }
-    ]
-  },
   "connections": {
     "Schedule Trigger": {
       "main": [
@@ -2642,22 +2457,22 @@
         ]
       ]
     },
-    "Wait and Retry1": {
+    "Get Dataset Items1": {
       "main": [
         [
           {
-            "node": "Check Run Status1",
+            "node": "normalize_indeed_job_data",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Get Dataset Items1": {
+    "Wait and Retry1": {
       "main": [
         [
           {
-            "node": "normalize_indeed_job_data",
+            "node": "Check Run Status1",
             "type": "main",
             "index": 0
           }
@@ -2836,9 +2651,15 @@
         ]
       ]
     },
-    "DeepSeek Chat Model1": {
-      "ai_languageModel": [
-        []
+    "Webhook1": {
+      "main": [
+        [
+          {
+            "node": "get_job_id1",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     },
     "Markdown1": {
@@ -2867,7 +2688,7 @@
       "main": [
         [
           {
-            "node": "create_new_cover_letter1",
+            "node": "return_all_items1",
             "type": "main",
             "index": 0
           }
@@ -2878,29 +2699,7 @@
       "main": [
         [
           {
-            "node": "append_blocks1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "create_new_job_listing1": {
-      "main": [
-        [
-          {
-            "node": "set_company_name2",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "create_new_cover_letter1": {
-      "main": [
-        [
-          {
-            "node": "return_all_items1",
+            "node": "Build Email",
             "type": "main",
             "index": 0
           }
@@ -2934,6 +2733,17 @@
         [
           {
             "node": "GetDate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read/Write Files from Disk7": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request: Compile PDF",
             "type": "main",
             "index": 0
           }
@@ -3032,33 +2842,11 @@
         ]
       ]
     },
-    "Webhook1": {
-      "main": [
-        [
-          {
-            "node": "get_job_id1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Get Job Posting": {
       "main": [
         [
           {
-            "node": "create_new_job_listing1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "append_blocks1": {
-      "main": [
-        [
-          {
-            "node": "Build Email",
+            "node": "set_company_name2",
             "type": "main",
             "index": 0
           }
@@ -3070,17 +2858,6 @@
         [
           {
             "node": "Prepare Latex",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Read/Write Files from Disk7": {
-      "main": [
-        [
-          {
-            "node": "HTTP Request: Compile PDF",
             "type": "main",
             "index": 0
           }
@@ -3138,6 +2915,17 @@
         ]
       ]
     },
+    "Get Dataset Items3": {
+      "main": [
+        [
+          {
+            "node": "normalize_linkedin_job_data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
     "Wait and Retry3": {
       "main": [
         [
@@ -3160,22 +2948,34 @@
         ]
       ]
     },
-    "Get Dataset Items3": {
+    "Init DB": {
       "main": [
         [
           {
-            "node": "normalize_linkedin_job_data",
+            "node": "Download Master CV",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Init DB": {
+    "HTTP Request: Compile PDF": {
       "main": [
         [
           {
-            "node": "Download Master CV",
+            "node": "Read Generated PDF",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "Read Generated PDF": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
             "type": "main",
             "index": 0
           }
@@ -3270,22 +3070,22 @@
         ]
       ]
     },
-    "Extract Text from CV": {
+    "Orchestrator Agent": {
       "main": [
         [
           {
-            "node": "Orchestrator Agent",
+            "node": "Parse Strategy JSON",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Orchestrator Agent": {
+    "Extract Text from CV": {
       "main": [
         [
           {
-            "node": "Parse Strategy JSON",
+            "node": "Orchestrator Agent",
             "type": "main",
             "index": 0
           }
@@ -3314,35 +3114,6 @@
           {
             "node": "Orchestrator Agent",
             "type": "ai_languageModel",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "HTTP Request: Compile PDF": {
-      "main": [
-        [
-          {
-            "node": "Read Generated PDF",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Set Resume Result",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Read Generated PDF": {
-      "main": [
-        [
-          {
-            "node": "Merge1",
-            "type": "main",
             "index": 0
           }
         ]
@@ -3406,11 +3177,6 @@
             "index": 0
           }
         ]
-      ]
-    },
-    "DeepSeek Chat Model": {
-      "ai_languageModel": [
-        []
       ]
     },
     "Parse Resume JSON": {
@@ -3490,12 +3256,12 @@
         ]
       ]
     },
-    "Google Gemini Chat Model4": {
-      "ai_languageModel": [
+    "When clicking ‘Execute workflow’": {
+      "main": [
         [
           {
-            "node": "AI Resume Consultant",
-            "type": "ai_languageModel",
+            "node": "Edit Fields",
+            "type": "main",
             "index": 0
           }
         ]
@@ -3506,6 +3272,17 @@
         [
           {
             "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model4": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Resume Consultant",
             "type": "ai_languageModel",
             "index": 0
           }
@@ -3524,51 +3301,9 @@
       ]
     }
   },
-  "active": true,
-  "settings": {
-    "executionOrder": "v1",
-    "timezone": "Europe/Berlin",
-    "saveExecutionProgress": true,
-    "callerPolicy": "workflowsFromSameOwner",
-    "executionTimeout": -1,
-    "timeSavedPerExecution": 1
-  },
-  "versionId": "15e4d772-1a33-4ed9-84c0-bc1de528c373",
+  "pinData": {},
   "meta": {
     "templateCredsSetupCompleted": true,
-    "instanceId": "d61f1d8c02b08174ff10b435a65c150febeac76956b2f7e114c99630bac17961"
-  },
-  "id": "cCQO37YsOptt6iXB",
-  "tags": [
-    {
-      "createdAt": "2025-07-16T14:32:07.995Z",
-      "updatedAt": "2025-07-16T14:32:07.995Z",
-      "id": "6eHLIaRRgQ6iEGCj",
-      "name": "Linkedin"
-    },
-    {
-      "createdAt": "2025-07-18T14:42:07.128Z",
-      "updatedAt": "2025-07-18T14:42:07.128Z",
-      "id": "VEZgsIFy9mxSpebZ",
-      "name": "Indeed"
-    },
-    {
-      "createdAt": "2025-07-18T14:42:11.876Z",
-      "updatedAt": "2025-07-18T14:42:11.876Z",
-      "id": "2tnmXiapbZjJ41nr",
-      "name": "Agent"
-    },
-    {
-      "createdAt": "2025-07-18T14:42:20.932Z",
-      "updatedAt": "2025-07-18T14:42:20.932Z",
-      "id": "YTdxVMrse7OInESG",
-      "name": "Resume"
-    },
-    {
-      "createdAt": "2025-07-18T14:42:34.217Z",
-      "updatedAt": "2025-07-18T14:42:34.217Z",
-      "id": "WXre9VWXJaukbqI4",
-      "name": "Cover letter"
-    }
-  ]
+    "instanceId": "6589c77d6d574e5d7157ff40fd97c2b896c0cee58ce17c70dedf99cdffb91fd4"
+  }
 }
